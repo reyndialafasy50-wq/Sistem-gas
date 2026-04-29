@@ -44,7 +44,7 @@
                 <label for="namaPelanggan" class="form-label fw-bold text-secondary">Pilih Pelanggan</label>
                 <select class="form-select form-select-lg" id="namaPelanggan" required>
                   <option value="">Pilih Pelanggan...</option>
-                  </select>
+                </select>
               </div>
 
               <div class="row mb-3">
@@ -112,10 +112,8 @@
   </div>
 
   <script>
-    // 1. MASUKKAN LINK URL APPS SCRIPT ANDA DI BAWAH INI:
+    // URL API sudah dimasukkan dan dirapikan otomatis
     const API_URL = "https://script.google.com/macros/s/AKfycbzE8T0osCFVPnxtU7p_Jt84UHydBun3hlV4tgm44Whbk_Xhmv7PGXRjE4b2oM63PV2SsA/exec"; 
-"; 
-"; 
 
     // Variabel global untuk menyimpan data pelanggan
     let customersData = [];
@@ -141,9 +139,7 @@
     // Jalankan reset form saat halaman dimuat pertama kali
     resetForm();
 
-    // *** Fungsi-Fungsi Auto-Perhitungan JavaScript (Tampilan Keren/RQ Kamila Style) ***
-
-    // 1. Ketika Pelanggan dipilih: Tarik Harga Khusus otomatis
+    // *** Fungsi-Fungsi Auto-Perhitungan JavaScript ***
     document.getElementById('namaPelanggan').addEventListener('change', function(e) {
       const selectedCustomerId = e.target.value;
       const selectedCustomer = customersData.find(c => c.Nama_Pelanggan === selectedCustomerId);
@@ -155,8 +151,7 @@
       calculateTotals();
     });
 
-    // 2. Ketika jumlah tabung atau uang bayar diketik: Hitung otomatis
-    document.querySelectorAll('#gasBeli, # tabungKembali, #uangBayar').forEach(input => {
+    document.querySelectorAll('#gasBeli, #tabungKembali, #uangBayar').forEach(input => {
       input.addEventListener('input', calculateTotals);
     });
 
@@ -165,11 +160,9 @@
       const numGasBeli = parseInt(document.getElementById('gasBeli').value) || 0;
       const payment = parseFloat(document.getElementById('uangBayar').value) || 0;
 
-      // Hitung Total Tagihan: Harga * Gas Beli
       const totalBill = price * numGasBeli;
       document.getElementById('totalTagihan').value = totalBill.toFixed(0);
 
-      // Hitung Hutang Uang: Total - Uang Bayar
       const debtUang = totalBill - payment;
       document.getElementById('hutangUang').value = debtUang.toFixed(0);
     }
@@ -179,14 +172,12 @@
       const hasilDiv = document.getElementById("hasilData");
       hasilDiv.innerHTML = "<p class='text-center text-warning'><i class='fas fa-circle-notch fa-spin me-2'></i>Menghubungkan ke Database...</p>";
 
-      // Mengambil data dari Google Sheets
       fetch(API_URL + "?sheet=Pelanggan")
         .then(response => response.json())
         .then(data => {
           if(data.status === "success") {
-            customersData = data.data; // Simpan secara global
+            customersData = data.data; 
             
-            // Populasikan Select Dropdown di Form
             const customerSelect = document.getElementById('namaPelanggan');
             customerSelect.innerHTML = '<option value="">Pilih Pelanggan...</option>';
             customersData.forEach(pelanggan => {
@@ -198,7 +189,6 @@
               }
             });
 
-            // Tetap Munculkan Kartu Pelanggan di Bawah (Pemesanan di AppSheet)
             let htmlContent = "";
             data.data.forEach(pelanggan => {
               htmlContent += `
@@ -223,23 +213,21 @@
         });
     });
 
-    // *** Bagian 3: Kirim Data Transaksi Baru (Simpan ke Google Sheets) ***
+    // *** Bagian 3: Kirim Data Transaksi Baru ***
     document.getElementById('formTransaksi').addEventListener('submit', function(e) {
-      e.preventDefault(); // Mencegah reload halaman
+      e.preventDefault(); 
       
       const statusDiv = document.getElementById('statusTransaksi');
       statusDiv.innerHTML = '<div class="spinner-border spinner-border-sm text-warning"></div><span class="ms-2">Menyimpan transaksi...</span>';
       statusDiv.classList.remove('d-none', 'alert-danger', 'alert-success');
       statusDiv.classList.add('alert', 'alert-warning');
 
-      // Kumpulkan data form dan format untuk doPost
       const tanggalWaktu = new Date(document.getElementById('tanggalWaktu').value).toISOString();
       const selectedCustomerId = document.getElementById('namaPelanggan').value;
       const gasBeli = document.getElementById('gasBeli').value;
       const tabungKembali = document.getElementById('tabungKembali').value;
       const uangBayar = document.getElementById('uangBayar').value;
 
-      // Final Konfirmasi (Logika AppSheet: Tabung Kembali >= Gas Beli)
       if (parseInt(tabungKembali) < parseInt(gasBeli)) {
           statusDiv.innerHTML = "Jumlah Tabung Kembali tidak boleh kurang dari Gas Beli!";
           statusDiv.classList.remove('alert-warning');
@@ -247,9 +235,8 @@
           return;
       }
 
-      // Siapkan data untuk dikirim ke Google Sheets (Tepat Berurutan Kolom)
       const postData = {
-        "sheet": "Transaksi", // Nama tab target
+        "sheet": "Transaksi", 
         "data": [
           document.getElementById('idTransaksi').value,
           tanggalWaktu,
@@ -259,15 +246,14 @@
           document.getElementById('totalTagihan').value,
           uangBayar,
           document.getElementById('hutangUang').value,
-          "Ya", // Placeholder untuk Nota PDF Link
-          "" // Placeholder untuk Sisa Tabung Dipinjam (bisa dihitung di sheets)
+          "Ya", 
+          "" 
         ]
       };
 
-      // Jalankan POST request (CRUD Master API)
       fetch(API_URL, {
         method: 'POST',
-        mode: 'no-cors', // Wajib untuk Apps Script POST
+        mode: 'no-cors', 
         cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json'
@@ -277,19 +263,15 @@
         body: JSON.stringify(postData) 
       })
         .then(response => {
-          // Asumsikan sukses (karena no-cors tidak bisa baca respon json)
           statusDiv.innerHTML = '<i class="fas fa-check-circle fa-2x d-block mb-2"></i> Transaksi Berhasil Disimpan!';
           statusDiv.classList.remove('alert-warning', 'alert-danger');
           statusDiv.classList.add('alert-success');
 
-          // Update ID untuk transaksi berikutnya
           nextTransactionIdSuffix++;
           localStorage.setItem('gas_next_tx_id', nextTransactionIdSuffix);
           
-          // Beri jeda 2 detik sebelum mereset form agar user bisa melihat feedback
           setTimeout(function(){ 
               resetForm();
-              // Muat ulang daftar pelanggan agar saldo terupdate
               document.getElementById("btnLoad").click(); 
           }, 2000); 
 
@@ -302,7 +284,6 @@
         });
     });
 
-    // Tombol Batal
     document.getElementById('btnBatal').addEventListener('click', resetForm);
   </script>
 </body>
