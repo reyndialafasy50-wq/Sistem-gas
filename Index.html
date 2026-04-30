@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toko Gas Ummi Nusa Pro</title>
   
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3076/3076162.png">
+  <!-- IKON UNTUK IPAD (HOME SCREEN) - ANTI BLOKIR -->
+  <link rel="apple-touch-icon" href="https://img.icons8.com/3d-fluency/512/gas-industry.png">
+  <link rel="icon" type="image/png" href="https://img.icons8.com/3d-fluency/512/gas-industry.png">
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -57,6 +59,7 @@
         <p class="text-muted small">Sistem Management Inventori & Kasir</p>
     </div>
 
+    <!-- NAVIGASI MENU -->
     <ul class="nav nav-pills nav-fill mb-4 bg-white rounded-4 p-2 shadow-sm">
       <li class="nav-item"><a class="nav-link active" id="btnMenuKasir" onclick="bukaHalaman('kasir')"><i class="fas fa-cash-register me-2"></i>Kasir</a></li>
       <li class="nav-item"><a class="nav-link" id="btnMenuRestok" onclick="bukaHalaman('restok')"><i class="fas fa-truck-loading me-2"></i>Restok</a></li>
@@ -64,6 +67,7 @@
       <li class="nav-item"><a class="nav-link" id="btnMenuPelanggan" onclick="bukaHalaman('pelanggan')"><i class="fas fa-users me-2"></i>Pelanggan</a></li>
     </ul>
 
+    <!-- HALAMAN 1: KASIR -->
     <div id="halamanKasir" class="halaman-app">
       <div class="row">
         <div class="col-lg-6">
@@ -113,6 +117,7 @@
       </div>
     </div>
 
+    <!-- HALAMAN 2: RESTOK AGEN -->
     <div id="halamanRestok" class="halaman-app d-none">
       <div class="row justify-content-center">
         <div class="col-md-8">
@@ -141,6 +146,7 @@
       </div>
     </div>
 
+    <!-- HALAMAN 3: ASET GUDANG -->
     <div id="halamanAset" class="halaman-app d-none">
       <div class="row">
         <div class="col-md-4 mb-4">
@@ -175,6 +181,7 @@
       </div>
     </div>
 
+    <!-- HALAMAN 4: DATA PELANGGAN -->
     <div id="halamanPelanggan" class="halaman-app d-none">
       <div class="row">
         <div class="col-md-4 mb-4">
@@ -208,7 +215,10 @@
       </div>
     </div>
 
-  </div> <div class="modal fade" id="modalStruk" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-body bg-light p-4 rounded-top-4"><div id="areaStruk" class="bg-white p-3 shadow-sm border" style="width: 270px; font-family: 'Courier New', Courier, monospace; color: black; line-height: 1.4;"></div></div><div class="modal-footer justify-content-center bg-white border-0 rounded-bottom-4"><button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Tutup</button><button type="button" class="btn btn-primary btn-sm fw-bold" id="btnCetak"><i class="fas fa-print me-1"></i> Cetak</button><button type="button" class="btn btn-success btn-sm fw-bold" id="btnBagikan"><i class="fab fa-whatsapp me-1"></i> WA</button></div></div></div></div>
+  </div> <!-- End Container -->
+
+  <!-- MODAL AREA -->
+  <div class="modal fade" id="modalStruk" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-body bg-light p-4 rounded-top-4"><div id="areaStruk" class="bg-white p-3 shadow-sm border" style="width: 270px; font-family: 'Courier New', Courier, monospace; color: black; line-height: 1.4;"></div></div><div class="modal-footer justify-content-center bg-white border-0 rounded-bottom-4"><button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Tutup</button><button type="button" class="btn btn-primary btn-sm fw-bold" id="btnCetak"><i class="fas fa-print me-1"></i> Cetak</button><button type="button" class="btn btn-success btn-sm fw-bold" id="btnBagikan"><i class="fab fa-whatsapp me-1"></i> WA</button></div></div></div></div>
 
   <div class="modal fade" id="modalMutasi" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-primary text-white py-3 border-0 rounded-top-4"><h6 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>Buku Hutang & Mutasi</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light p-4" id="areaRekapMutasi"><div class="bg-white p-4 rounded-4 shadow-sm border" id="cetakMutasiArea"><h4 class="fw-bold text-center mb-1" id="mutasiNama">-</h4><p class="text-center text-muted small mb-4 pb-2 border-bottom">Rekapitulasi Tabung & Hutang Uang</p><table class="table table-sm table-borderless table-striped" style="font-size: 13px;"><thead class="text-center border-bottom text-muted"><tr><th class="text-start pb-2">Tanggal</th><th class="pb-2">Beli</th><th class="pb-2">Kbl</th><th class="text-end pb-2">Hutang</th></tr></thead><tbody id="mutasiTabelBody"></tbody></table><div class="mt-4 p-3 bg-danger bg-opacity-10 rounded-3 border border-danger"><div class="d-flex justify-content-between mb-1"><span class="small">Tabung Dipinjam:</span><span id="mutasiTotalTabung" class="fw-bold">0</span></div><div class="d-flex justify-content-between"><span class="small">Hutang Uang:</span><span id="mutasiTotalUang" class="fw-bold text-danger">Rp 0</span></div></div></div></div><div class="modal-footer justify-content-center bg-white border-0 py-3"><button type="button" class="btn btn-success fw-bold px-4 rounded-pill shadow-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim WA (JPG)</button></div></div></div></div>
 
@@ -223,6 +233,8 @@
     let nextId = localStorage.getItem('gas_id') || 1001;
     let baseAsetGudang = parseInt(localStorage.getItem('gas_base_aset')) || 120;
     let modalStruk, modalMutasi, modalDetailPinjaman;
+
+    document.getElementById('angkaModalAset').innerText = baseAsetGudang;
 
     function bukaHalaman(halaman) {
       document.querySelectorAll('.halaman-app').forEach(el => el.classList.add('d-none'));
@@ -240,9 +252,15 @@
       document.getElementById('idTransaksi').value = `TX_${String(now.getFullYear()).slice(-2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${nextId}`;
     }
 
+    function formatTanggalPendek(dateObj) {
+      const dd = String(dateObj.getDate()).padStart(2, '0'); const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const yy = String(dateObj.getFullYear()).slice(-2); const h = String(dateObj.getHours()).padStart(2, '0');
+      const m = String(dateObj.getMinutes()).padStart(2, '0'); return `${dd}/${mm}/${yy}, ${h}.${m}`;
+    }
+
     function hitung() {
-      const p = customersData.find(c => c.Nama_Pelanggan === document.getElementById('namaPelanggan').value);
-      const harga = p ? p.Harga_Khusus : 0;
+      const p = customersData.find(c => (c.Nama_Pelanggan || c["Nama Pelanggan"] || c.Nama) === document.getElementById('namaPelanggan').value);
+      const harga = p ? (p.Harga_Khusus || p.Harga || 0) : 0;
       const beli = parseInt(document.getElementById('gasBeli').value) || 0;
       const bayar = parseInt(document.getElementById('uangBayar').value) || 0;
       const total = harga * beli; document.getElementById('totalTagihan').value = total || ''; 
@@ -264,29 +282,39 @@
         customersData = data.data;
         const select = document.getElementById('namaPelanggan'); select.innerHTML = '<option value="">-- Cari Nama --</option>';
         const tbodyPelanggan = document.getElementById('tabelDaftarPelanggan'); tbodyPelanggan.innerHTML = '';
+        
+        let jumlahPelanggan = 0;
+        
         data.data.forEach(p => { 
-          if(p.Nama_Pelanggan) {
-            select.add(new Option(p.Nama_Pelanggan, p.Nama_Pelanggan)); 
-            let ikon = p.Katagori === 'Warung' ? 'fa-store' : (p.Katagori === 'Kandang' ? 'fa-home' : 'fa-user');
-            tbodyPelanggan.innerHTML += `<tr><td class="px-4 py-2"><div class="nama-pelanggan-box" onclick="lihatMutasi('${p.Nama_Pelanggan}')"><div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width:38px;height:38px;"><i class="fas ${ikon}"></i></div><div class="fw-bold text-dark">${p.Nama_Pelanggan}</div></div></td><td class="text-end px-4 text-success fw-bold">Rp${Number(p.Harga_Khusus).toLocaleString('id-ID')}</td></tr>`;
+          // Antisipasi jika judul kolom diubah sedikit di Google Sheets
+          let namaPlg = p.Nama_Pelanggan || p["Nama Pelanggan"] || p.Nama || "";
+          let katPlg = p.Kategori || p.Katagori || "-";
+          let hargaPlg = p.Harga_Khusus || p.Harga || 0;
+
+          if(namaPlg !== "") {
+            jumlahPelanggan++;
+            select.add(new Option(namaPlg, namaPlg)); 
+            let ikon = katPlg === 'Warung' ? 'fa-store' : (katPlg === 'Kandang' ? 'fa-home' : 'fa-user');
+            tbodyPelanggan.innerHTML += `<tr><td class="px-4 py-2"><div class="nama-pelanggan-box" onclick="lihatMutasi('${namaPlg}')"><div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width:38px;height:38px;"><i class="fas ${ikon}"></i></div><div class="fw-bold text-dark">${namaPlg}</div></div></td><td class="text-end px-4 text-success fw-bold">Rp${Number(hargaPlg).toLocaleString('id-ID')}</td></tr>`;
           }
         });
-        document.getElementById('totalPelangganBadge').innerText = data.data.filter(p=>p.Nama_Pelanggan).length;
-      });
+        document.getElementById('totalPelangganBadge').innerText = jumlahPelanggan;
+      }).catch(err => console.error("Error load pelanggan:", err));
 
       fetch(API_URL + "?sheet=Transaksi").then(r => r.json()).then(res => {
         riwayatData = res.data;
         const tbody = document.getElementById('tabelRiwayat'); tbody.innerHTML = "";
         res.data.reverse().slice(0, 5).forEach(t => {
-          tbody.innerHTML += `<tr><td class="px-4 py-2"><div class="fw-bold text-dark" onclick="lihatMutasi('${t.Nama_Pelanggan}')" style="cursor:pointer">${t.Nama_Pelanggan}</div><small class="text-muted" style="font-size:10px">${t.ID_Transaksi}</small></td><td class="fw-bold text-success">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td><td class="text-center"><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-light border"><i class="fas fa-print"></i></button></td></tr>`;
+          let namaT = t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama || "-";
+          tbody.innerHTML += `<tr><td class="px-4 py-2"><div class="fw-bold text-dark" onclick="lihatMutasi('${namaT}')" style="cursor:pointer">${namaT}</div><small class="text-muted" style="font-size:10px">${t.ID_Transaksi}</small></td><td class="fw-bold text-success">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td><td class="text-center"><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-light border"><i class="fas fa-print"></i></button></td></tr>`;
         });
         kalkulasiAsetGudang();
-      });
+      }).catch(err => console.error("Error load transaksi:", err));
 
       fetch(API_URL + "?sheet=Stok").then(r => r.json()).then(res => {
         stokData = res.data;
         kalkulasiStokIsi();
-      });
+      }).catch(err => console.error("Error load stok:", err));
     }
 
     function kalkulasiStokIsi() {
@@ -312,7 +340,12 @@
 
     function kalkulasiAsetGudang() {
       let dipinjam = 0; let rekap = {};
-      riwayatData.forEach(t => { let p = (parseInt(t.Gas_Beli)||0) - (parseInt(t.Tabung_Kembali)||0); dipinjam += p; if(!rekap[t.Nama_Pelanggan]) rekap[t.Nama_Pelanggan] = 0; rekap[t.Nama_Pelanggan] += p; });
+      riwayatData.forEach(t => { 
+        let namaT = t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama || "-";
+        let p = (parseInt(t.Gas_Beli)||0) - (parseInt(t.Tabung_Kembali)||0); 
+        dipinjam += p; 
+        if(!rekap[namaT]) rekap[namaT] = 0; rekap[namaT] += p; 
+      });
       document.getElementById('angkaDipinjam').innerText = dipinjam; document.getElementById('angkaDiGudang').innerText = baseAsetGudang - dipinjam;
       const tbody = document.getElementById('tabelDaftarPinjaman'); tbody.innerHTML = "";
       for (let n in rekap) { if(rekap[n] > 0) tbody.innerHTML += `<tr><td class="px-4 py-2 fw-bold">${n}</td><td class="text-center px-4"><span class="badge bg-danger rounded-pill">${rekap[n]} Tabung</span></td></tr>`; }
@@ -322,12 +355,12 @@
 
     function lihatMutasi(nama) {
       document.getElementById('mutasiNama').innerText = nama;
-      const tx = riwayatData.filter(t => t.Nama_Pelanggan === nama); 
+      const tx = riwayatData.filter(t => (t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama) === nama); 
       let pTab = 0; let hUang = 0; let rows = '';
       tx.forEach(t => { 
         let p = (parseInt(t.Gas_Beli)||0)-(parseInt(t.Tabung_Kembali)||0); let h = (parseFloat(t.Total_Tagihan)||0)-(parseFloat(t.Uang_Bayar)||0);
         pTab += p; hUang += h;
-        rows += `<tr><td class="text-start py-2 border-bottom">${formatTanggalPendek(new Date(t.Tanggal_Waktu)).split(',')[0]}</td><td class="text-center py-2 border-bottom fw-bold">${t.Gas_Beli}</td><td class="text-center py-2 border-bottom fw-bold">${t.Tabung_Kembali}</td><td class="text-end py-2 border-bottom text-danger fw-bold">${h !== 0 ? h.toLocaleString('id-ID') : '-'}</td></tr>`;
+        rows += `<tr><td class="text-start py-2 border-bottom">${formatTanggalPendek(new Date(t.Tanggal_Waktu)).split(',')[0]}</td><td class="text-center py-2 border-bottom fw-bold">${t.Gas_Beli||0}</td><td class="text-center py-2 border-bottom fw-bold">${t.Tabung_Kembali||0}</td><td class="text-end py-2 border-bottom text-danger fw-bold">${h !== 0 ? h.toLocaleString('id-ID') : '-'}</td></tr>`;
       });
       document.getElementById('mutasiTabelBody').innerHTML = rows || '<tr><td colspan="4" class="text-center py-4">Belum ada data</td></tr>';
       document.getElementById('mutasiTotalTabung').innerText = pTab + " Tabung";
@@ -345,10 +378,12 @@
       modalStruk.show();
     }
 
-    function cetakDariRiwayat(idTx) { let t = riwayatData.find(x => x.ID_Transaksi === idTx); if(t) { document.getElementById('waktuDisplay').value = formatTanggalPendek(new Date(t.Tanggal_Waktu)); tampilkanStruk([t.ID_Transaksi, t.Tanggal_Waktu, t.Nama_Pelanggan, t.Gas_Beli, t.Tabung_Kembali, t.Total_Tagihan, t.Uang_Bayar, t.Hutang_Uang, "YA", (t.Gas_Beli-t.Tabung_Kembali)]); } }
+    function cetakDariRiwayat(idTx) { let t = riwayatData.find(x => x.ID_Transaksi === idTx); if(t) { document.getElementById('waktuDisplay').value = formatTanggalPendek(new Date(t.Tanggal_Waktu)); tampilkanStruk([t.ID_Transaksi, t.Tanggal_Waktu, (t.Nama_Pelanggan||t["Nama Pelanggan"]||t.Nama), t.Gas_Beli, t.Tabung_Kembali, t.Total_Tagihan, t.Uang_Bayar, t.Hutang_Uang, "YA", (t.Gas_Beli-t.Tabung_Kembali)]); } }
 
     document.getElementById('formTransaksi').addEventListener('submit', function(e) {
-      e.preventDefault(); const btn = document.getElementById('btnSimpan'); btn.disabled = true;
+      e.preventDefault(); const btn = document.getElementById('btnSimpan'); const status = document.getElementById('statusTransaksi');
+      btn.disabled = true; status.classList.remove('d-none'); status.innerHTML = 'Menyimpan...';
+
       const gBeli = parseInt(document.getElementById('gasBeli').value)||0; const tKbl = parseInt(document.getElementById('tabungKembali').value)||0;
       const rec = [ document.getElementById('idTransaksi').value, new Date().toISOString(), document.getElementById('namaPelanggan').value, gBeli, tKbl, document.getElementById('totalTagihan').value||0, document.getElementById('uangBayar').value||0, document.getElementById('hutangUang').value||0, "YA", (gBeli - tKbl) ];
       fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Transaksi", "data": rec}) }).then(() => { nextId++; localStorage.setItem('gas_id', nextId); tampilkanStruk(rec); setTimeout(() => { resetForm(); btn.disabled = false; refreshSemuaData(); }, 1500); });
