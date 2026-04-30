@@ -14,18 +14,19 @@
     .header-primary { background: linear-gradient(135deg, #007bff, #0056b3); color: white; border-radius: 15px 15px 0 0; }
     .header-success { background: linear-gradient(135deg, #198754, #146c43); color: white; border-radius: 15px 15px 0 0; }
     .header-warning { background: linear-gradient(135deg, #fd7e14, #d35400); color: white; border-radius: 15px 15px 0 0; }
-    .header-info { background: linear-gradient(135deg, #0dcaf0, #0aa2c0); color: white; border-radius: 15px 15px 0 0; }
     .form-control, .form-select { border-radius: 10px; padding: 10px; }
     
-    /* Navigasi Menu ala Aplikasi iPad */
-    .nav-pills .nav-link { border-radius: 10px; color: #6c757d; font-size: 1.1rem; padding: 12px 20px; transition: all 0.3s;}
+    .nav-pills .nav-link { border-radius: 10px; color: #6c757d; font-size: 1.1rem; padding: 12px 20px; transition: all 0.3s; cursor: pointer;}
     .nav-pills .nav-link.active { background-color: #0d6efd; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(13,110,253,0.3);}
     .nav-pills .nav-link:hover:not(.active) { background-color: #e9ecef; }
     
+    .nama-pelanggan-link { cursor: pointer; color: #0d6efd; text-decoration: underline; text-underline-offset: 3px; }
+    .nama-pelanggan-link:hover { color: #0a58ca; }
+
     @media print {
       body * { visibility: hidden; }
       #areaStruk, #areaStruk * { visibility: visible; }
-      #areaStruk { position: fixed; left: 0; top: 0; width: 80mm; margin: 0; padding: 0; box-shadow: none !important; border: none !important; }
+      #areaStruk { position: fixed; left: 0; top: 0; width: 80mm; margin: 0; padding: 0; }
     }
   </style>
 </head>
@@ -34,86 +35,40 @@
   <div class="container mt-4 mb-5">
     <h2 class="text-center text-primary mb-4 fw-bold"><i class="fas fa-gas-pump me-2"></i>Toko Gas Ummi Nusa</h2>
 
-    <!-- PONDASI MENU NAVIGASI (TABS) -->
-    <ul class="nav nav-pills nav-fill mb-4 shadow-sm bg-white rounded p-2" id="menuNavigasi">
-      <li class="nav-item">
-        <a class="nav-link active" id="btnMenuKasir" href="#" onclick="bukaHalaman('kasir')">
-          <i class="fas fa-cash-register me-2"></i>Kasir Jualan
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="btnMenuRestok" href="#" onclick="bukaHalaman('restok')">
-          <i class="fas fa-truck-loading me-2"></i>Restok Agen
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="btnMenuAset" href="#" onclick="bukaHalaman('aset')">
-          <i class="fas fa-boxes me-2"></i>Aset Gudang
-        </a>
-      </li>
+    <!-- NAVIGASI MENU -->
+    <ul class="nav nav-pills nav-fill mb-4 shadow-sm bg-white rounded p-2">
+      <li class="nav-item"><a class="nav-link active" id="btnMenuKasir" onclick="bukaHalaman('kasir')"><i class="fas fa-cash-register me-2"></i>Kasir Jualan</a></li>
+      <li class="nav-item"><a class="nav-link" id="btnMenuRestok" onclick="bukaHalaman('restok')"><i class="fas fa-truck-loading me-2"></i>Restok Agen</a></li>
+      <li class="nav-item"><a class="nav-link" id="btnMenuAset" onclick="bukaHalaman('aset')"><i class="fas fa-boxes me-2"></i>Aset Gudang</a></li>
     </ul>
 
-    <!-- ========================================== -->
-    <!-- HALAMAN 1: KASIR (Aplikasi Utama Saat Ini) -->
-    <!-- ========================================== -->
+    <!-- HALAMAN 1: KASIR -->
     <div id="halamanKasir" class="halaman-app">
       <div class="row">
-        <!-- FORM TRANSAKSI -->
         <div class="col-lg-6">
           <div class="card card-master shadow-lg">
-            <div class="card-header header-primary py-3 text-center">
-              <h5 class="mb-0 fw-bold">Input Transaksi Baru</h5>
-            </div>
+            <div class="card-header header-primary py-3 text-center"><h5 class="mb-0 fw-bold">Input Transaksi Baru</h5></div>
             <div class="card-body p-4 bg-white">
               <form id="formTransaksi">
                 <div class="row mb-3">
-                  <div class="col-6">
-                    <label class="small fw-bold text-muted">ID Transaksi</label>
-                    <input type="text" class="form-control bg-light" id="idTransaksi" readonly>
-                  </div>
-                  <div class="col-6">
-                    <label class="small fw-bold text-muted">Waktu</label>
-                    <input type="text" class="form-control bg-light" id="waktuDisplay" readonly>
-                  </div>
+                  <div class="col-6"><label class="small fw-bold text-muted">ID Transaksi</label><input type="text" class="form-control bg-light" id="idTransaksi" readonly></div>
+                  <div class="col-6"><label class="small fw-bold text-muted">Waktu</label><input type="text" class="form-control bg-light" id="waktuDisplay" readonly></div>
                 </div>
-
                 <div class="mb-3">
                   <label class="fw-bold">Pilih Pelanggan</label>
-                  <select class="form-select form-select-lg border-primary" id="namaPelanggan" required>
-                    <option value="">-- Cari Nama --</option>
-                  </select>
+                  <select class="form-select form-select-lg border-primary" id="namaPelanggan" required><option value="">-- Cari Nama --</option></select>
                 </div>
-
                 <div class="row mb-3">
-                  <div class="col-6">
-                    <label class="small fw-bold">Gas Beli (Tabung)</label>
-                    <input type="number" class="form-control form-control-lg border-primary" id="gasBeli" required min="1" placeholder="0">
-                  </div>
-                  <div class="col-6">
-                    <label class="small fw-bold text-info">Tabung Kosong Kembali</label>
-                    <input type="number" class="form-control form-control-lg border-info" id="tabungKembali" required min="0" placeholder="0">
-                  </div>
+                  <div class="col-6"><label class="small fw-bold">Gas Beli (Tabung)</label><input type="number" class="form-control form-control-lg border-primary" id="gasBeli" required min="0" value="0"></div>
+                  <div class="col-6"><label class="small fw-bold text-info">Tabung Kosong Kembali</label><input type="number" class="form-control form-control-lg border-info" id="tabungKembali" required min="0" value="0"></div>
                 </div>
-
                 <div class="row mb-4">
-                  <div class="col-4">
-                    <label class="small fw-bold text-success">Tagihan (Rp)</label>
-                    <input type="number" class="form-control fw-bold text-success bg-light" id="totalTagihan" readonly>
-                  </div>
-                  <div class="col-4">
-                    <label class="small fw-bold">Bayar (Rp)</label>
-                    <input type="number" class="form-control border-warning" id="uangBayar" required placeholder="0">
-                  </div>
-                  <div class="col-4">
-                    <label class="small fw-bold text-danger">Hutang (Rp)</label>
-                    <input type="number" class="form-control fw-bold text-danger bg-light" id="hutangUang" readonly>
-                  </div>
+                  <div class="col-4"><label class="small fw-bold text-success">Tagihan (Rp)</label><input type="number" class="form-control fw-bold text-success bg-light" id="totalTagihan" readonly></div>
+                  <div class="col-4"><label class="small fw-bold">Bayar (Rp)</label><input type="number" class="form-control border-warning" id="uangBayar" required min="0" value="0"></div>
+                  <div class="col-4"><label class="small fw-bold text-danger">Hutang (Rp)</label><input type="text" class="form-control fw-bold text-danger bg-light" id="hutangUang" readonly></div>
                 </div>
-
                 <div class="d-grid">
-                  <button type="submit" id="btnSimpan" class="btn btn-primary btn-lg fw-bold py-3">
-                    <i class="fas fa-save me-2"></i>SIMPAN & LIHAT NOTA
-                  </button>
+                  <button type="submit" id="btnSimpan" class="btn btn-primary btn-lg fw-bold py-3"><i class="fas fa-save me-2"></i>SIMPAN TRANSAKSI</button>
                 </div>
               </form>
               <div id="statusTransaksi" class="mt-3 text-center d-none"></div>
@@ -121,118 +76,116 @@
           </div>
         </div>
 
-        <!-- RIWAYAT TRANSAKSI -->
         <div class="col-lg-6">
           <div class="card card-master shadow-lg">
-            <div class="card-header header-success py-3 text-center">
-              <h5 class="mb-0 fw-bold">Riwayat Transaksi Terakhir</h5>
-            </div>
+            <div class="card-header header-success py-3 text-center"><h5 class="mb-0 fw-bold">Riwayat & Mutasi</h5></div>
             <div class="card-body p-0">
               <div class="table-responsive">
                 <table class="table table-hover mb-0">
-                  <thead class="table-light">
-                    <tr>
-                      <th class="small">Pelanggan</th>
-                      <th class="small">Total</th>
-                      <th class="small">Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tabelRiwayat">
-                    <!-- Data otomatis masuk -->
-                  </tbody>
+                  <thead class="table-light"><tr><th class="small">Pelanggan (Klik u/ Rekap)</th><th class="small">Tagihan</th><th class="small">Aksi</th></tr></thead>
+                  <tbody id="tabelRiwayat"></tbody>
                 </table>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div> <!-- Akhir Halaman Kasir -->
+    </div>
 
-    <!-- ========================================== -->
-    <!-- HALAMAN 2: RESTOK AGEN (Pondasi Tampilan)  -->
-    <!-- ========================================== -->
+    <!-- HALAMAN 2: RESTOK AGEN -->
     <div id="halamanRestok" class="halaman-app d-none">
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="card card-master shadow-lg">
-            <div class="card-header header-warning py-3 text-center">
-              <h5 class="mb-0 fw-bold"><i class="fas fa-truck me-2"></i>Penerimaan Gas (Restok Sabtu)</h5>
-            </div>
+            <div class="card-header header-warning py-3 text-center"><h5 class="mb-0 fw-bold"><i class="fas fa-truck me-2"></i>Restok Hari Sabtu</h5></div>
             <div class="card-body p-5 text-center">
               <h2 class="fw-bold text-primary mb-3">Jatah Agen: 50 Tabung</h2>
-              <p class="text-muted mb-4">Catat penerimaan gas penuh dari agen Pertamina ke dalam mutasi gudang Anda.</p>
-              
-              <!-- Tombol dummy untuk sementara -->
-              <button class="btn btn-warning btn-lg fw-bold px-5 py-3 text-white shadow" onclick="alert('Fitur pengiriman data ke sheet Stok sedang disiapkan di tahap selanjutnya!')">
-                <i class="fas fa-check-circle me-2"></i>KLIK UNTUK TERIMA 50 TABUNG HARI INI
-              </button>
+              <p class="text-muted mb-4">Mencatat mutasi 50 gas masuk dan 50 tabung kosong diserahkan ke truk Pertamina.</p>
+              <button id="btnRestokAgen" class="btn btn-warning btn-lg fw-bold px-5 py-3 text-white shadow"><i class="fas fa-check-circle me-2"></i>TERIMA 50 TABUNG HARI INI</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- HALAMAN 3: ASET GUDANG (Pondasi Tampilan)  -->
-    <!-- ========================================== -->
+    <!-- HALAMAN 3: ASET GUDANG -->
     <div id="halamanAset" class="halaman-app d-none">
-      <h4 class="fw-bold mb-3 text-secondary"><i class="fas fa-chart-pie me-2"></i>Dashboard Aset Tabung 3Kg</h4>
+      <h4 class="fw-bold mb-3 text-secondary"><i class="fas fa-chart-pie me-2"></i>Live Dashboard Aset</h4>
       <div class="row">
-        <!-- Kartu 1 -->
         <div class="col-md-4 mb-3">
           <div class="card card-master shadow bg-primary text-white h-100">
             <div class="card-body text-center py-4">
               <h6 class="fw-light">Total Modal Tabung Awal</h6>
               <h1 class="fw-bold display-4">120</h1>
-              <small>(50 Jatah + 70 Beli Sendiri)</small>
+              <small>(Baku: 50 Jatah + 70 Sendiri)</small>
             </div>
           </div>
         </div>
-        <!-- Kartu 2 -->
         <div class="col-md-4 mb-3">
           <div class="card card-master shadow bg-success text-white h-100">
             <div class="card-body text-center py-4">
-              <h6 class="fw-light">Fisik di Gudang (Estimasi)</h6>
-              <h1 class="fw-bold display-4">--</h1>
-              <small>Isi + Kosong di Toko</small>
+              <h6 class="fw-light">Fisik di Gudang Saat Ini</h6>
+              <h1 class="fw-bold display-4" id="angkaDiGudang"><i class="fas fa-spinner fa-spin"></i></h1>
+              <small>Isi & Kosong yang ada di toko</small>
             </div>
           </div>
         </div>
-        <!-- Kartu 3 -->
         <div class="col-md-4 mb-3">
           <div class="card card-master shadow bg-danger text-white h-100">
             <div class="card-body text-center py-4">
-              <h6 class="fw-light">Dipinjam Pelanggan (Tunggakan)</h6>
-              <h1 class="fw-bold display-4">--</h1>
-              <small>Belum dikembalikan</small>
+              <h6 class="fw-light">Sedang Dipinjam Pelanggan</h6>
+              <h1 class="fw-bold display-4" id="angkaDipinjam"><i class="fas fa-spinner fa-spin"></i></h1>
+              <small>Total tunggakan tabung luar</small>
             </div>
           </div>
         </div>
       </div>
-      <div class="alert alert-info mt-3 text-center">
-        <i class="fas fa-info-circle me-2"></i>Data Aset dan Stok akan dihubungkan ke Google Sheets pada pembaruan tahap berikutnya.
-      </div>
     </div>
+  </div>
 
-  </div> <!-- Akhir Container -->
-
-  <!-- MODAL PREVIEW STRUK (TETAP ADA) -->
-  <div class="modal fade" id="modalStruk" tabindex="-1" aria-hidden="true">
+  <!-- MODAL NOTA (STRUK) -->
+  <div class="modal fade" id="modalStruk" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content border-0 shadow-lg">
-        <div class="modal-header bg-dark text-white py-2">
-          <h6 class="modal-title"><i class="fas fa-receipt me-2"></i>Preview Struk</h6>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body d-flex justify-content-center bg-light">
-          <div id="areaStruk" class="bg-white p-3 shadow-sm border" style="width: 270px; font-family: 'Courier New', Courier, monospace; color: black; line-height: 1.4;">
-             <!-- KONTEN STRUK -->
-          </div>
+      <div class="modal-content">
+        <div class="modal-body d-flex justify-content-center bg-light p-4">
+          <div id="areaStruk" class="bg-white p-3 shadow-sm border" style="width: 270px; font-family: 'Courier New', Courier, monospace; color: black; line-height: 1.4;"></div>
         </div>
         <div class="modal-footer justify-content-center bg-light">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary btn-sm px-3" id="btnCetak"><i class="fas fa-print me-1"></i>Cetak</button>
-          <button type="button" class="btn btn-success btn-sm px-3" id="btnBagikan"><i class="fab fa-whatsapp me-1"></i>Bagikan (JPG)</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnCetak"><i class="fas fa-print"></i> Cetak</button>
+          <button type="button" class="btn btn-success btn-sm" id="btnBagikan"><i class="fab fa-whatsapp"></i> WA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL BUKU MUTASI PELANGGAN -->
+  <div class="modal fade" id="modalMutasi" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white py-2">
+          <h6 class="modal-title"><i class="fas fa-address-book me-2"></i>Buku Mutasi Pelanggan</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body bg-light" id="areaRekapMutasi">
+          <div class="bg-white p-3 border shadow-sm" id="cetakMutasiArea">
+            <h5 class="fw-bold text-center mb-0" id="mutasiNama">-</h5>
+            <p class="text-center text-muted small mb-3">Rekapitulasi Tabung & Hutang</p>
+            <table class="table table-sm table-bordered" style="font-size: 12px;">
+              <thead class="table-light text-center">
+                <tr><th>Tanggal</th><th>Beli</th><th>Kbl</th><th>Hutang(Rp)</th></tr>
+              </thead>
+              <tbody id="mutasiTabelBody"></tbody>
+            </table>
+            <div class="alert alert-danger p-2 mb-0" style="font-size: 13px;">
+              <strong>SISA TUNGGAKAN SAAT INI:</strong><br>
+              Tabung Dipinjam : <span id="mutasiTotalTabung" class="fw-bold fs-6">0</span> Tabung<br>
+              Hutang Uang : <span id="mutasiTotalUang" class="fw-bold fs-6 text-danger">Rp 0</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-success btn-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim Tagihan (JPG)</button>
         </div>
       </div>
     </div>
@@ -246,34 +199,15 @@
     let customersData = [];
     let riwayatData = [];
     let nextId = localStorage.getItem('gas_id') || 1001;
-    let modalInstance = null;
+    let modalStruk, modalMutasi;
 
-    // --- FUNGSI NAVIGASI TAB ---
     function bukaHalaman(halaman) {
-      // Sembunyikan semua halaman
-      document.getElementById('halamanKasir').classList.add('d-none');
-      document.getElementById('halamanRestok').classList.add('d-none');
-      document.getElementById('halamanAset').classList.add('d-none');
-      
-      // Matikan warna biru semua tombol menu
-      document.getElementById('btnMenuKasir').classList.remove('active');
-      document.getElementById('btnMenuRestok').classList.remove('active');
-      document.getElementById('btnMenuAset').classList.remove('active');
-
-      // Tampilkan halaman & menu yang dipilih saja
-      if(halaman === 'kasir') {
-        document.getElementById('halamanKasir').classList.remove('d-none');
-        document.getElementById('btnMenuKasir').classList.add('active');
-      } else if(halaman === 'restok') {
-        document.getElementById('halamanRestok').classList.remove('d-none');
-        document.getElementById('btnMenuRestok').classList.add('active');
-      } else if(halaman === 'aset') {
-        document.getElementById('halamanAset').classList.remove('d-none');
-        document.getElementById('btnMenuAset').classList.add('active');
-      }
+      document.querySelectorAll('.halaman-app').forEach(el => el.classList.add('d-none'));
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      document.getElementById('halaman' + halaman.charAt(0).toUpperCase() + halaman.slice(1)).classList.remove('d-none');
+      document.getElementById('btnMenu' + halaman.charAt(0).toUpperCase() + halaman.slice(1)).classList.add('active');
     }
 
-    // FUNGSI MEMBUAT FORMAT TANGGAL 26/04/26, 10.36
     function formatTanggalPendek(dateObj) {
       const dd = String(dateObj.getDate()).padStart(2, '0');
       const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -285,217 +219,209 @@
 
     function resetForm() {
       document.getElementById('formTransaksi').reset();
+      document.getElementById('gasBeli').value = 0;
+      document.getElementById('tabungKembali').value = 0;
+      document.getElementById('uangBayar').value = 0;
+      
       const now = new Date();
-      
       document.getElementById('waktuDisplay').value = formatTanggalPendek(now);
-      
-      const yy = String(now.getFullYear()).slice(-2);
-      const mm = String(now.getMonth() + 1).padStart(2, '0');
-      const dd = String(now.getDate()).padStart(2, '0');
-      document.getElementById('idTransaksi').value = `TX_${yy}${mm}${dd}_${nextId}`;
-      
+      document.getElementById('idTransaksi').value = `TX_${String(now.getFullYear()).slice(-2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${nextId}`;
       document.getElementById('statusTransaksi').classList.add('d-none');
     }
 
     function hitung() {
-      const nama = document.getElementById('namaPelanggan').value;
+      const p = customersData.find(c => c.Nama_Pelanggan === document.getElementById('namaPelanggan').value);
+      const harga = p ? p.Harga_Khusus : 0;
       const beli = parseInt(document.getElementById('gasBeli').value) || 0;
       const bayar = parseInt(document.getElementById('uangBayar').value) || 0;
       
-      const p = customersData.find(c => c.Nama_Pelanggan === nama);
-      const harga = p ? p.Harga_Khusus : 0;
-      
       const total = harga * beli;
       document.getElementById('totalTagihan').value = total;
-      document.getElementById('hutangUang').value = Math.max(0, total - bayar);
+      
+      // Hutang bisa negatif jika mereka mengembalikan uang (bayar hutang tanpa beli gas)
+      const hutang = total - bayar; 
+      document.getElementById('hutangUang').value = hutang;
     }
 
-    document.getElementById('gasBeli').addEventListener('input', hitung);
-    document.getElementById('uangBayar').addEventListener('input', hitung);
-    document.getElementById('namaPelanggan').addEventListener('change', hitung);
+    document.querySelectorAll('#gasBeli, #uangBayar, #namaPelanggan').forEach(el => el.addEventListener('input', hitung));
 
     window.onload = function() {
       resetForm();
-      modalInstance = new bootstrap.Modal(document.getElementById('modalStruk'));
+      modalStruk = new bootstrap.Modal(document.getElementById('modalStruk'));
+      modalMutasi = new bootstrap.Modal(document.getElementById('modalMutasi'));
       
-      fetch(API_URL + "?sheet=Pelanggan")
-        .then(r => r.json())
-        .then(data => {
-          customersData = data.data;
-          const select = document.getElementById('namaPelanggan');
-          data.data.forEach(p => {
-            if(p.Nama_Pelanggan) {
-              let opt = document.createElement('option');
-              opt.value = p.Nama_Pelanggan;
-              opt.text = p.Nama_Pelanggan;
-              select.add(opt);
-            }
-          });
-        });
+      fetch(API_URL + "?sheet=Pelanggan").then(r => r.json()).then(data => {
+        customersData = data.data;
+        const select = document.getElementById('namaPelanggan');
+        data.data.forEach(p => { if(p.Nama_Pelanggan) select.add(new Option(p.Nama_Pelanggan, p.Nama_Pelanggan)); });
+      });
       loadRiwayat();
     };
 
     function loadRiwayat() {
-      fetch(API_URL + "?sheet=Transaksi")
-        .then(r => r.json())
-        .then(res => {
-          riwayatData = res.data;
-          const tbody = document.getElementById('tabelRiwayat');
-          tbody.innerHTML = "";
-          const last5 = res.data.reverse().slice(0, 5);
-          last5.forEach(t => {
-            tbody.innerHTML += `
-              <tr>
-                <td><b class="text-primary">${t.Nama_Pelanggan}</b><br><small class="text-muted">${t.ID_Transaksi}</small></td>
-                <td class="fw-bold">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td>
-                <td><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></button></td>
-              </tr>
-            `;
-          });
+      fetch(API_URL + "?sheet=Transaksi").then(r => r.json()).then(res => {
+        riwayatData = res.data;
+        const tbody = document.getElementById('tabelRiwayat');
+        tbody.innerHTML = "";
+        
+        // Render 5 transaksi terakhir
+        res.data.reverse().slice(0, 5).forEach(t => {
+          tbody.innerHTML += `<tr>
+            <td><span class="nama-pelanggan-link fw-bold" onclick="lihatMutasi('${t.Nama_Pelanggan}')">${t.Nama_Pelanggan}</span><br><small class="text-muted">${t.ID_Transaksi}</small></td>
+            <td class="fw-bold text-success">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td>
+            <td><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></button></td>
+          </tr>`;
         });
+        
+        // AUTO UPDATE DASHBOARD ASET
+        kalkulasiAsetGudang();
+      });
+    }
+
+    // MESIN 1: KALKULASI ASET GUDANG
+    function kalkulasiAsetGudang() {
+      let totalTabungDipinjam = 0;
+      riwayatData.forEach(t => {
+        // Jika gas beli 0 tapi kembali 2, maka pinjam -2 (artinya mengembalikan). Sum total akan akurat.
+        totalTabungDipinjam += (parseInt(t.Gas_Beli) || 0) - (parseInt(t.Tabung_Kembali) || 0);
+      });
+      
+      const modalAwal = 120;
+      const fisikDiGudang = modalAwal - totalTabungDipinjam;
+      
+      document.getElementById('angkaDipinjam').innerText = totalTabungDipinjam;
+      document.getElementById('angkaDiGudang').innerText = fisikDiGudang;
+    }
+
+    // MESIN 2: BUKU MUTASI PELANGGAN
+    function lihatMutasi(nama) {
+      document.getElementById('mutasiNama').innerText = "Buku: " + nama;
+      const txPelanggan = riwayatData.filter(t => t.Nama_Pelanggan === nama).reverse(); // Urutkan dari terlama ke terbaru
+      
+      let totalPinjamTabung = 0;
+      let totalHutangUang = 0;
+      let barisTabel = '';
+
+      txPelanggan.forEach(t => {
+        const pinjam = (parseInt(t.Gas_Beli) || 0) - (parseInt(t.Tabung_Kembali) || 0);
+        const hutangTx = (parseFloat(t.Total_Tagihan) || 0) - (parseFloat(t.Uang_Bayar) || 0);
+        
+        totalPinjamTabung += pinjam;
+        totalHutangUang += hutangTx;
+
+        barisTabel += `<tr>
+          <td>${formatTanggalPendek(new Date(t.Tanggal_Waktu)).split(',')[0]}</td>
+          <td class="text-center">${t.Gas_Beli}</td>
+          <td class="text-center">${t.Tabung_Kembali}</td>
+          <td class="text-end text-danger">${hutangTx !== 0 ? hutangTx.toLocaleString('id-ID') : '-'}</td>
+        </tr>`;
+      });
+
+      document.getElementById('mutasiTabelBody').innerHTML = barisTabel || '<tr><td colspan="4" class="text-center">Belum ada transaksi</td></tr>';
+      document.getElementById('mutasiTotalTabung').innerText = totalPinjamTabung;
+      document.getElementById('mutasiTotalUang').innerText = "Rp " + totalHutangUang.toLocaleString('id-ID');
+      
+      modalMutasi.show();
     }
 
     function tampilkanStruk(record) {
-      const hargaSatuan = (record[3] > 0) ? (record[5] / record[3]) : 0;
-      const tanggalFormat = document.getElementById('waktuDisplay').value;
-
       const konten = `
         <div class="text-center mb-2">
           <strong style="font-size: 14px;">Toko Gas Ummi Nusa</strong><br>
-          <span style="font-size: 11px;">Jl. Bandingan wates, Rt.08/04 Kec. Kejobong<br>
-          Kab. Purbalingga - Jawa Tengah<br>
-          Telp: 085713967119</span>
+          <span style="font-size: 11px;">Jl. Bandingan wates, Rt.08/04 Kec. Kejobong<br>Kab. Purbalingga - Telp: 085713967119</span>
         </div>
         <div style="border-top: 1px dashed #000; margin: 8px 0;"></div>
         <table style="width: 100%; font-size: 11px;">
-          <tr><td style="width: 40%; vertical-align: top;">No. Transaksi</td><td style="width: 5%; vertical-align: top;">:</td><td>${record[0]}</td></tr>
-          <tr><td style="vertical-align: top;">Tanggal</td><td style="vertical-align: top;">:</td><td>${tanggalFormat}</td></tr>
-          <tr><td style="vertical-align: top;">Pelanggan</td><td style="vertical-align: top;">:</td><td>${record[2]}</td></tr>
+          <tr><td style="width: 40%;">Transaksi</td><td>:</td><td>${record[0]}</td></tr>
+          <tr><td>Waktu</td><td>:</td><td>${document.getElementById('waktuDisplay').value}</td></tr>
+          <tr><td>Pelanggan</td><td>:</td><td>${record[2]}</td></tr>
         </table>
         <div style="border-top: 1px dashed #000; margin: 8px 0;"></div>
-        <div style="font-size: 11px;">
-          <div>ITEM:</div>
-          <div>Gas LPG 3Kg</div>
-          <div>${record[3]} Tabung x Rp${hargaSatuan.toLocaleString('id-ID')}</div>
-        </div>
+        <div style="font-size: 11px;">ITEM: Gas LPG 3Kg <br> ${record[3]} Tabung</div>
         <div style="border-top: 1px dotted #000; margin: 8px 0;"></div>
         <table style="width: 100%; font-size: 11px; font-weight: bold;">
-          <tr><td style="width: 45%;">TOTAL TAGIHAN</td><td style="width: 5%;">:</td><td>Rp${Number(record[5]).toLocaleString('id-ID')}</td></tr>
-          <tr><td>UANG BAYAR</td><td>:</td><td>Rp${Number(record[6]).toLocaleString('id-ID')}</td></tr>
+          <tr><td style="width: 45%;">TAGIHAN</td><td>:</td><td>Rp${Number(record[5]).toLocaleString('id-ID')}</td></tr>
+          <tr><td>BAYAR</td><td>:</td><td>Rp${Number(record[6]).toLocaleString('id-ID')}</td></tr>
         </table>
         <div style="border-top: 1px dashed #000; margin: 8px 0;"></div>
         <div style="font-size: 11px;">
-          <div>RINCIAN TABUNG:</div>
-          <div>Tabung Kosong Kembali : ${record[4]} Tabung</div>
-          <br>
-          <div>SISA TUNGGAKAN SAAT INI:</div>
-          <table style="width: 100%; font-size: 11px;">
-            <tr><td style="width: 45%;">Hutang Uang</td><td style="width: 5%;">:</td><td>Rp${Number(record[7]).toLocaleString('id-ID')}</td></tr>
-            <tr><td>Pinjam Tabung</td><td>:</td><td>${record[9]} Tabung</td></tr>
-          </table>
+          Bawa Tabung Kosong : ${record[4]} Tabung<br><br>
+          TRANSAKSI INI MENGHASILKAN:<br>
+          Hutang Uang : Rp${Number(record[7]).toLocaleString('id-ID')}<br>
+          Pinjam Tabung : ${record[9]} Tabung
         </div>
         <div style="border-top: 1px dashed #000; margin: 8px 0;"></div>
-        <div class="text-center" style="font-size: 10px;">
-          Terima Kasih Telah Berbelanja<br>
-          Simpan Struk Ini Bukti Pembayaran
-        </div>
+        <div class="text-center" style="font-size: 10px;">Terima Kasih<br>Simpan Struk Ini Bukti Pembayaran</div>
       `;
       document.getElementById('areaStruk').innerHTML = konten;
-      modalInstance.show();
+      modalStruk.show();
     }
 
     function cetakDariRiwayat(idTx) {
        const tx = riwayatData.find(x => x.ID_Transaksi === idTx);
        if(tx) {
-          const pinjamTabung = Math.max(0, parseInt(tx.Gas_Beli) - parseInt(tx.Tabung_Kembali));
-          const record = [
-             tx.ID_Transaksi, tx.Tanggal_Waktu, tx.Nama_Pelanggan, tx.Gas_Beli, 
-             tx.Tabung_Kembali, tx.Total_Tagihan, tx.Uang_Bayar, tx.Hutang_Uang, "YA", pinjamTabung
-          ];
+          const record = [ tx.ID_Transaksi, tx.Tanggal_Waktu, tx.Nama_Pelanggan, tx.Gas_Beli, tx.Tabung_Kembali, tx.Total_Tagihan, tx.Uang_Bayar, tx.Hutang_Uang, "YA", (tx.Gas_Beli - tx.Tabung_Kembali) ];
           document.getElementById('waktuDisplay').value = formatTanggalPendek(new Date(tx.Tanggal_Waktu));
           tampilkanStruk(record);
        }
     }
 
+    // SIMPAN TRANSAKSI
     document.getElementById('formTransaksi').addEventListener('submit', function(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSimpan');
       const status = document.getElementById('statusTransaksi');
-      
-      btn.disabled = true;
-      status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-      status.className = "alert alert-warning mt-3";
-      status.classList.remove('d-none');
+      btn.disabled = true; status.classList.remove('d-none'); status.innerHTML = 'Menyimpan...';
 
       const gasBeli = parseInt(document.getElementById('gasBeli').value) || 0;
       const tabungKembali = parseInt(document.getElementById('tabungKembali').value) || 0;
-      const pinjamTabung = Math.max(0, gasBeli - tabungKembali);
+      const pinjamTabung = gasBeli - tabungKembali; // Bisa negatif jika bayar hutang tabung
 
       const dataRecord = [
-        document.getElementById('idTransaksi').value,
-        new Date().toISOString(),
-        document.getElementById('namaPelanggan').value,
-        gasBeli,
-        tabungKembali,
-        document.getElementById('totalTagihan').value,
-        document.getElementById('uangBayar').value,
-        document.getElementById('hutangUang').value,
-        "YA",
-        pinjamTabung
+        document.getElementById('idTransaksi').value, new Date().toISOString(),
+        document.getElementById('namaPelanggan').value, gasBeli, tabungKembali,
+        document.getElementById('totalTagihan').value, document.getElementById('uangBayar').value,
+        document.getElementById('hutangUang').value, "YA", pinjamTabung
       ];
 
-      fetch(API_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({"sheet": "Transaksi", "data": dataRecord})
-      }).then(() => {
-        status.innerHTML = "Berhasil Disimpan!";
-        status.className = "alert alert-success mt-3";
-        nextId++;
-        localStorage.setItem('gas_id', nextId);
-        
+      fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Transaksi", "data": dataRecord}) })
+      .then(() => {
+        nextId++; localStorage.setItem('gas_id', nextId);
         tampilkanStruk(dataRecord);
-        
-        setTimeout(() => {
-          resetForm();
-          btn.disabled = false;
-          loadRiwayat();
-        }, 1500);
+        setTimeout(() => { resetForm(); btn.disabled = false; loadRiwayat(); }, 1500);
       });
     });
 
-    document.getElementById('btnCetak').addEventListener('click', function() {
-      window.print();
+    // RESTOK AGEN
+    document.getElementById('btnRestokAgen').addEventListener('click', function() {
+      if(!confirm("Yakin mencatat terima 50 Tabung?")) return;
+      const btn = this; const teksAsli = btn.innerHTML; btn.innerHTML = 'Mencatat...'; btn.disabled = true;
+      const dataStok = [ new Date().toISOString(), "Restok Agen (Sabtu)", 50, 0, 0, 50, "", "" ];
+
+      fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Stok", "data": dataStok}) })
+      .then(() => {
+        btn.innerHTML = 'Berhasil!'; btn.classList.replace('btn-warning', 'btn-success');
+        setTimeout(() => { btn.innerHTML = teksAsli; btn.classList.replace('btn-success', 'btn-warning'); btn.disabled = false; }, 3000);
+      });
     });
 
-    document.getElementById('btnBagikan').addEventListener('click', function() {
-      const btn = this;
-      const teksAsli = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Memproses...';
-      btn.disabled = true;
-      const areaStruk = document.getElementById('areaStruk');
-      html2canvas(areaStruk, { scale: 2 }).then(canvas => {
-        canvas.toBlob(function(blob) {
-          const fileGambar = new File([blob], 'Struk_Gas_Ummi_Nusa.jpg', { type: 'image/jpeg' });
-          if (navigator.canShare && navigator.canShare({ files: [fileGambar] })) {
-            navigator.share({
-              files: [fileGambar],
-              title: 'Struk Transaksi Pangkalan Gas'
-            }).then(() => {
-              btn.innerHTML = teksAsli;
-              btn.disabled = false;
-            }).catch(err => {
-              btn.innerHTML = teksAsli;
-              btn.disabled = false;
-            });
-          } else {
-            alert('Fitur bagikan gambar tidak didukung. Coba lewat Safari.');
-            btn.innerHTML = teksAsli;
-            btn.disabled = false;
-          }
+    // FUNGSI SHARE / CETAK
+    document.getElementById('btnCetak').addEventListener('click', () => window.print());
+    
+    function bagikanGambar(elemenId, namaFile) {
+      html2canvas(document.getElementById(elemenId), { scale: 2 }).then(canvas => {
+        canvas.toBlob(blob => {
+          const file = new File([blob], namaFile, { type: 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file], title: 'Data Gas Ummi Nusa' });
+          } else alert('Gunakan Safari di iPad untuk membagikan gambar.');
         }, 'image/jpeg', 0.9);
       });
-    });
+    }
+
+    document.getElementById('btnBagikan').addEventListener('click', () => bagikanGambar('areaStruk', 'Struk_UmmiNusa.jpg'));
+    document.getElementById('btnKirimMutasi').addEventListener('click', () => bagikanGambar('cetakMutasiArea', 'Tagihan_Mutasi.jpg'));
+
   </script>
 </body>
 </html>
