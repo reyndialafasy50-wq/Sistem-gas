@@ -9,20 +9,34 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
   <style>
-    body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, sans-serif; }
-    .card-master { border-radius: 15px; border: none; margin-bottom: 20px; }
-    .header-primary { background: linear-gradient(135deg, #007bff, #0056b3); color: white; border-radius: 15px 15px 0 0; }
-    .header-success { background: linear-gradient(135deg, #198754, #146c43); color: white; border-radius: 15px 15px 0 0; }
-    .header-warning { background: linear-gradient(135deg, #fd7e14, #d35400); color: white; border-radius: 15px 15px 0 0; }
-    .form-control, .form-select { border-radius: 10px; padding: 10px; }
+    body { background-color: #f4f6f9; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .card-master { border-radius: 16px; border: none; margin-bottom: 20px; }
+    .header-primary { background: linear-gradient(135deg, #007bff, #0056b3); color: white; border-radius: 16px 16px 0 0; }
+    .header-success { background: linear-gradient(135deg, #198754, #146c43); color: white; border-radius: 16px 16px 0 0; }
+    .header-warning { background: linear-gradient(135deg, #fd7e14, #d35400); color: white; border-radius: 16px 16px 0 0; }
+    .form-control, .form-select { border-radius: 10px; padding: 12px; border: 1px solid #ced4da; }
     
     .nav-pills .nav-link { border-radius: 10px; color: #6c757d; font-size: 1.05rem; padding: 10px 15px; transition: all 0.3s; cursor: pointer; margin: 0 5px;}
-    .nav-pills .nav-link.active { background-color: #0d6efd; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(13,110,253,0.3);}
+    .nav-pills .nav-link.active { background-color: #0d6efd; color: white; font-weight: bold; box-shadow: 0 4px 10px rgba(13,110,253,0.3);}
     .nav-pills .nav-link:hover:not(.active) { background-color: #e9ecef; }
     
-    .nama-pelanggan-link { cursor: pointer; color: #0d6efd; text-decoration: underline; text-underline-offset: 3px; }
-    .nama-pelanggan-link:hover { color: #0a58ca; }
-    .card-hover:hover { transform: scale(1.02); transition: 0.2s; cursor: pointer; opacity: 0.9; }
+    /* Desain Premium Baru untuk Nama Pelanggan */
+    .nama-pelanggan-link { 
+      cursor: pointer; 
+      text-decoration: none; 
+      transition: all 0.2s ease-in-out; 
+      padding: 8px 12px; 
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .nama-pelanggan-link:hover { 
+      background-color: #f8f9fa; 
+      transform: translateX(5px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .card-hover:hover { transform: translateY(-3px); transition: 0.3s; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
 
     @media print {
       body * { visibility: hidden; }
@@ -34,10 +48,10 @@
 <body>
 
   <div class="container mt-4 mb-5">
-    <h2 class="text-center text-primary mb-4 fw-bold"><i class="fas fa-gas-pump me-2"></i>Toko Gas Ummi Nusa</h2>
+    <h2 class="text-center text-primary mb-4 fw-bold" style="letter-spacing: -0.5px;"><i class="fas fa-gas-pump me-2"></i>Toko Gas Ummi Nusa</h2>
 
     <!-- NAVIGASI MENU -->
-    <ul class="nav nav-pills nav-fill mb-4 shadow-sm bg-white rounded p-2">
+    <ul class="nav nav-pills nav-fill mb-4 shadow-sm bg-white rounded-4 p-2">
       <li class="nav-item"><a class="nav-link active" id="btnMenuKasir" onclick="bukaHalaman('kasir')"><i class="fas fa-cash-register d-block d-md-inline mb-1 me-md-2"></i>Kasir Jualan</a></li>
       <li class="nav-item"><a class="nav-link" id="btnMenuRestok" onclick="bukaHalaman('restok')"><i class="fas fa-truck-loading d-block d-md-inline mb-1 me-md-2"></i>Restok Agen</a></li>
       <li class="nav-item"><a class="nav-link" id="btnMenuAset" onclick="bukaHalaman('aset')"><i class="fas fa-boxes d-block d-md-inline mb-1 me-md-2"></i>Aset Gudang</a></li>
@@ -48,29 +62,29 @@
     <div id="halamanKasir" class="halaman-app">
       <div class="row">
         <div class="col-lg-6">
-          <div class="card card-master shadow-lg">
+          <div class="card card-master shadow-sm border-0">
             <div class="card-header header-primary py-3 text-center"><h5 class="mb-0 fw-bold">Input Transaksi Baru</h5></div>
             <div class="card-body p-4 bg-white">
               <form id="formTransaksi">
                 <div class="row mb-3">
-                  <div class="col-6"><label class="small fw-bold text-muted">ID Transaksi</label><input type="text" class="form-control bg-light" id="idTransaksi" readonly></div>
-                  <div class="col-6"><label class="small fw-bold text-muted">Waktu</label><input type="text" class="form-control bg-light" id="waktuDisplay" readonly></div>
+                  <div class="col-6"><label class="small fw-bold text-muted mb-1">ID Transaksi</label><input type="text" class="form-control bg-light border-0" id="idTransaksi" readonly></div>
+                  <div class="col-6"><label class="small fw-bold text-muted mb-1">Waktu</label><input type="text" class="form-control bg-light border-0" id="waktuDisplay" readonly></div>
                 </div>
                 <div class="mb-3">
-                  <label class="fw-bold">Pilih Pelanggan</label>
-                  <select class="form-select form-select-lg border-primary" id="namaPelanggan" required><option value="">-- Cari Nama --</option></select>
+                  <label class="fw-bold mb-1">Pilih Pelanggan</label>
+                  <select class="form-select form-select-lg border-primary shadow-sm" id="namaPelanggan" required><option value="">-- Cari Nama --</option></select>
                 </div>
                 <div class="row mb-3">
-                  <div class="col-6"><label class="small fw-bold">Gas Beli (Tabung)</label><input type="number" class="form-control form-control-lg border-primary" id="gasBeli" required min="0" placeholder="0"></div>
-                  <div class="col-6"><label class="small fw-bold text-info">Kosong Kembali</label><input type="number" class="form-control form-control-lg border-info" id="tabungKembali" required min="0" placeholder="0"></div>
+                  <div class="col-6"><label class="small fw-bold mb-1">Gas Beli (Tabung)</label><input type="number" class="form-control form-control-lg border-primary shadow-sm" id="gasBeli" required min="0" placeholder="0"></div>
+                  <div class="col-6"><label class="small fw-bold text-info mb-1">Kosong Kembali</label><input type="number" class="form-control form-control-lg border-info shadow-sm" id="tabungKembali" required min="0" placeholder="0"></div>
                 </div>
                 <div class="row mb-4">
-                  <div class="col-4"><label class="small fw-bold text-success">Tagihan (Rp)</label><input type="number" class="form-control fw-bold text-success bg-light" id="totalTagihan" readonly placeholder="0"></div>
-                  <div class="col-4"><label class="small fw-bold">Bayar (Rp)</label><input type="number" class="form-control border-warning" id="uangBayar" required min="0" placeholder="0"></div>
-                  <div class="col-4"><label class="small fw-bold text-danger">Hutang (Rp)</label><input type="text" class="form-control fw-bold text-danger bg-light" id="hutangUang" readonly placeholder="0"></div>
+                  <div class="col-4"><label class="small fw-bold text-success mb-1">Tagihan (Rp)</label><input type="number" class="form-control fw-bold text-success bg-light border-0" id="totalTagihan" readonly placeholder="0"></div>
+                  <div class="col-4"><label class="small fw-bold mb-1">Bayar (Rp)</label><input type="number" class="form-control border-warning shadow-sm" id="uangBayar" required min="0" placeholder="0"></div>
+                  <div class="col-4"><label class="small fw-bold text-danger mb-1">Hutang (Rp)</label><input type="text" class="form-control fw-bold text-danger bg-light border-0" id="hutangUang" readonly placeholder="0"></div>
                 </div>
                 <div class="d-grid">
-                  <button type="submit" id="btnSimpan" class="btn btn-primary btn-lg fw-bold py-3"><i class="fas fa-save me-2"></i>SIMPAN TRANSAKSI</button>
+                  <button type="submit" id="btnSimpan" class="btn btn-primary btn-lg fw-bold py-3 shadow-sm rounded-3"><i class="fas fa-save me-2"></i>SIMPAN TRANSAKSI</button>
                 </div>
               </form>
               <div id="statusTransaksi" class="mt-3 text-center d-none"></div>
@@ -79,12 +93,12 @@
         </div>
 
         <div class="col-lg-6">
-          <div class="card card-master shadow-lg">
+          <div class="card card-master shadow-sm border-0">
             <div class="card-header header-success py-3 text-center"><h5 class="mb-0 fw-bold">Riwayat & Mutasi (5 Terakhir)</h5></div>
             <div class="card-body p-0">
               <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                  <thead class="table-light"><tr><th class="small">Pelanggan (Klik u/ Rekap)</th><th class="small">Tagihan</th><th class="small">Aksi</th></tr></thead>
+                <table class="table table-hover mb-0 align-middle">
+                  <thead class="table-light"><tr><th class="small px-4">Pelanggan</th><th class="small">Tagihan</th><th class="small">Aksi</th></tr></thead>
                   <tbody id="tabelRiwayat"></tbody>
                 </table>
               </div>
@@ -98,23 +112,23 @@
     <div id="halamanRestok" class="halaman-app d-none">
       <div class="row justify-content-center">
         <div class="col-md-8">
-          <div class="card card-master shadow-lg text-center">
+          <div class="card card-master shadow-sm border-0 text-center">
             <div class="card-header header-warning py-3"><h5 class="mb-0 fw-bold"><i class="fas fa-truck me-2"></i>Manajemen Stok Tabung Isi</h5></div>
             <div class="card-body p-4 p-md-5">
               
-              <div class="mb-4 p-3 border rounded bg-light">
-                <h6 class="text-muted fw-bold mb-1">STOK ISI SIAP JUAL SAAT INI</h6>
-                <h1 class="display-3 fw-bold text-success mb-0" id="angkaStokIsi"><i class="fas fa-spinner fa-spin"></i></h1>
+              <div class="mb-4 p-4 border-0 rounded-4 bg-light shadow-sm">
+                <h6 class="text-muted fw-bold mb-2">STOK ISI SIAP JUAL SAAT INI</h6>
+                <h1 class="display-2 fw-bold text-success mb-0" id="angkaStokIsi"><i class="fas fa-circle-notch fa-spin"></i></h1>
                 <small class="text-muted">Dihitung dari: (Total Masuk Agen) - (Total Terjual)</small>
               </div>
 
               <h5 class="fw-bold text-dark mb-3">Formulir Penerimaan Gas</h5>
               <div class="row justify-content-center mb-3">
                 <div class="col-8 col-md-6">
-                  <label class="small fw-bold text-muted mb-1">Jumlah Tabung Datang</label>
-                  <div class="input-group input-group-lg shadow-sm">
-                    <input type="number" class="form-control text-center fw-bold text-primary" id="jumlahRestok" value="50" min="1">
-                    <span class="input-group-text bg-white">Tabung</span>
+                  <label class="small fw-bold text-muted mb-2">Jumlah Tabung Datang</label>
+                  <div class="input-group input-group-lg shadow-sm rounded-3 overflow-hidden">
+                    <input type="number" class="form-control text-center fw-bold text-primary border-0 bg-light" id="jumlahRestok" value="50" min="1">
+                    <span class="input-group-text bg-white border-0 fw-bold text-secondary">Tabung</span>
                   </div>
                 </div>
               </div>
@@ -123,7 +137,7 @@
                 <i class="fas fa-history me-1"></i>Mencari riwayat masuk terakhir...
               </div>
 
-              <button id="btnRestokAgen" class="btn btn-warning btn-lg fw-bold px-4 py-3 text-white shadow rounded-pill w-100 w-md-auto">
+              <button id="btnRestokAgen" class="btn btn-warning btn-lg fw-bold px-4 py-3 text-white shadow-sm rounded-pill w-100 w-md-auto transition-all">
                 <i class="fas fa-download me-2"></i>SIMPAN DATA GAS MASUK
               </button>
             </div>
@@ -134,34 +148,35 @@
 
     <!-- HALAMAN 3: ASET GUDANG -->
     <div id="halamanAset" class="halaman-app d-none">
-      <h4 class="fw-bold mb-3 text-secondary"><i class="fas fa-chart-pie me-2"></i>Live Dashboard Aset</h4>
+      <h4 class="fw-bold mb-4 text-secondary"><i class="fas fa-chart-pie me-2"></i>Live Dashboard Aset</h4>
       <div class="row">
-        <div class="col-md-4 mb-3">
-          <div class="card card-master shadow bg-primary text-white h-100">
-            <div class="card-body text-center py-4">
-              <h6 class="fw-light">Total Modal Tabung (Fisik Asli)</h6>
-              <h1 class="fw-bold display-4 mb-0">
+        <div class="col-md-4 mb-4">
+          <div class="card card-master shadow-sm border-0 bg-primary text-white h-100 card-hover">
+            <div class="card-body text-center py-5">
+              <h6 class="fw-light opacity-75 text-uppercase tracking-wide mb-3">Modal Tabung (Fisik Asli)</h6>
+              <h1 class="fw-bold display-3 mb-0">
                 <span id="angkaModalAset">120</span> 
-                <button class="btn btn-sm btn-outline-light ms-2 rounded-circle" onclick="editAset()" title="Ubah Modal Aset"><i class="fas fa-pencil-alt"></i></button>
+                <button class="btn btn-sm btn-light ms-2 rounded-circle shadow-sm" onclick="editAset()" title="Ubah Modal Aset" style="width: 35px; height: 35px;"><i class="fas fa-pencil-alt text-primary"></i></button>
               </h1>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <div class="card card-master shadow bg-success text-white h-100">
-            <div class="card-body text-center py-4">
-              <h6 class="fw-light">Estimasi Ada di Gudang</h6>
-              <h1 class="fw-bold display-4" id="angkaDiGudang"><i class="fas fa-spinner fa-spin"></i></h1>
-              <small>Tabung Isi + Tabung Kosong</small>
+        <div class="col-md-4 mb-4">
+          <div class="card card-master shadow-sm border-0 bg-success text-white h-100 card-hover">
+            <div class="card-body text-center py-5">
+              <h6 class="fw-light opacity-75 text-uppercase tracking-wide mb-3">Estimasi Ada di Gudang</h6>
+              <h1 class="fw-bold display-3" id="angkaDiGudang"><i class="fas fa-circle-notch fa-spin"></i></h1>
+              <small class="opacity-75">Tabung Isi + Tabung Kosong</small>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <div class="card card-master shadow bg-danger text-white h-100 card-hover" onclick="bukaDetailPinjaman()" title="Klik untuk lihat daftar peminjam">
-            <div class="card-body text-center py-4">
-              <h6 class="fw-light">Sedang Dipinjam <i class="fas fa-hand-pointer float-end mt-1 opacity-50"></i></h6>
-              <h1 class="fw-bold display-4" id="angkaDipinjam"><i class="fas fa-spinner fa-spin"></i></h1>
-              <small>Klik untuk lihat detail siapa saja</small>
+        <div class="col-md-4 mb-4">
+          <div class="card card-master shadow-sm border-0 bg-danger text-white h-100 card-hover" onclick="bukaDetailPinjaman()" title="Klik untuk lihat daftar peminjam">
+            <div class="card-body text-center py-5 position-relative">
+              <div class="position-absolute top-0 end-0 mt-3 me-3 opacity-50"><i class="fas fa-external-link-alt"></i></div>
+              <h6 class="fw-light opacity-75 text-uppercase tracking-wide mb-3">Sedang Dipinjam</h6>
+              <h1 class="fw-bold display-3" id="angkaDipinjam"><i class="fas fa-circle-notch fa-spin"></i></h1>
+              <small class="opacity-75">Klik untuk lihat detail</small>
             </div>
           </div>
         </div>
@@ -173,41 +188,41 @@
       <div class="row">
         <div class="col-md-4 mb-4">
           <div class="card card-master shadow-sm border-0">
-            <div class="card-header bg-dark text-white"><h6 class="mb-0"><i class="fas fa-user-plus me-2"></i>Tambah Pelanggan Baru</h6></div>
-            <div class="card-body bg-white p-3">
+            <div class="card-header bg-dark text-white rounded-top-4 py-3"><h6 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2"></i>Tambah Pelanggan Baru</h6></div>
+            <div class="card-body bg-white p-4">
               <form id="formPelanggan">
-                <div class="mb-2">
-                  <label class="small fw-bold">Nama Pelanggan</label>
-                  <input type="text" class="form-control" id="baruNama" required placeholder="Contoh: Pak Budi">
+                <div class="mb-3">
+                  <label class="small fw-bold mb-1">Nama Pelanggan</label>
+                  <input type="text" class="form-control bg-light border-0" id="baruNama" required placeholder="Contoh: Pak Budi">
                 </div>
-                <div class="mb-2">
-                  <label class="small fw-bold">Kategori</label>
-                  <select class="form-select" id="baruKategori">
+                <div class="mb-3">
+                  <label class="small fw-bold mb-1">Kategori</label>
+                  <select class="form-select bg-light border-0" id="baruKategori">
                     <option value="Warung">Warung / Pengecer</option>
                     <option value="Kandang">Kandang Ayam</option>
                     <option value="Rumah Tangga">Rumah Tangga</option>
                   </select>
                 </div>
-                <div class="mb-3">
-                  <label class="small fw-bold">Harga Jual Khusus (Rp)</label>
-                  <input type="number" class="form-control" id="baruHarga" required placeholder="18000">
+                <div class="mb-4">
+                  <label class="small fw-bold mb-1">Harga Jual Khusus (Rp)</label>
+                  <input type="number" class="form-control bg-light border-0" id="baruHarga" required placeholder="18000">
                 </div>
-                <button type="submit" id="btnSimpanPelanggan" class="btn btn-primary w-100 fw-bold"><i class="fas fa-save me-2"></i>Simpan Pelanggan</button>
+                <button type="submit" id="btnSimpanPelanggan" class="btn btn-primary w-100 fw-bold py-2 rounded-3 shadow-sm"><i class="fas fa-save me-2"></i>Simpan Pelanggan</button>
               </form>
             </div>
           </div>
         </div>
         <div class="col-md-8">
           <div class="card card-master shadow-sm border-0">
-            <div class="card-header bg-info text-dark fw-bold d-flex justify-content-between align-items-center">
-              <span><i class="fas fa-users me-2"></i>Daftar Pelanggan Aktif</span>
-              <small class="badge bg-dark text-white" id="totalPelangganBadge">0</small>
+            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center rounded-top-4">
+              <span class="fw-bold text-dark fs-5"><i class="fas fa-users text-primary me-2"></i>Daftar Pelanggan Aktif</span>
+              <span class="badge bg-primary rounded-pill px-3 py-2 fs-6 shadow-sm" id="totalPelangganBadge">0</span>
             </div>
             <div class="card-body p-0">
-              <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                <table class="table table-hover table-striped mb-0 text-center align-middle">
-                  <thead class="table-light sticky-top">
-                    <tr><th>Nama (Klik u/ Buku Hutang)</th><th>Kategori</th><th>Harga</th></tr>
+              <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-light sticky-top shadow-sm">
+                    <tr><th class="px-4 py-3 text-muted">Nama Pelanggan</th><th class="text-center text-muted">Kategori</th><th class="text-end px-4 text-muted">Harga Jual</th></tr>
                   </thead>
                   <tbody id="tabelDaftarPelanggan"></tbody>
                 </table>
@@ -223,14 +238,14 @@
   <!-- MODAL NOTA (STRUK) -->
   <div class="modal fade" id="modalStruk" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content">
-        <div class="modal-body d-flex justify-content-center bg-light p-4">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-body d-flex justify-content-center bg-light p-4 rounded-top-4">
           <div id="areaStruk" class="bg-white p-3 shadow-sm border" style="width: 270px; font-family: 'Courier New', Courier, monospace; color: black; line-height: 1.4;"></div>
         </div>
-        <div class="modal-footer justify-content-center bg-light">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary btn-sm" id="btnCetak"><i class="fas fa-print"></i> Cetak</button>
-          <button type="button" class="btn btn-success btn-sm" id="btnBagikan"><i class="fab fa-whatsapp"></i> WA</button>
+        <div class="modal-footer justify-content-center bg-white border-0 rounded-bottom-4">
+          <button type="button" class="btn btn-light btn-sm fw-bold px-3" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-primary btn-sm fw-bold px-3" id="btnCetak"><i class="fas fa-print me-1"></i> Cetak</button>
+          <button type="button" class="btn btn-success btn-sm fw-bold px-3" id="btnBagikan"><i class="fab fa-whatsapp me-1"></i> WA</button>
         </div>
       </div>
     </div>
@@ -239,30 +254,36 @@
   <!-- MODAL BUKU MUTASI PELANGGAN -->
   <div class="modal fade" id="modalMutasi" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-white py-2">
-          <h6 class="modal-title"><i class="fas fa-address-book me-2"></i>Buku Mutasi Pelanggan</h6>
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header bg-primary text-white py-3 border-0 rounded-top-4">
+          <h6 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>Buku Hutang & Mutasi</h6>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body bg-light" id="areaRekapMutasi">
-          <div class="bg-white p-3 border shadow-sm" id="cetakMutasiArea">
-            <h5 class="fw-bold text-center mb-0 text-primary" id="mutasiNama">-</h5>
-            <p class="text-center text-muted small mb-3">Rekapitulasi Tabung & Hutang Uang</p>
-            <table class="table table-sm table-bordered" style="font-size: 12px;">
-              <thead class="table-light text-center">
-                <tr><th>Tanggal</th><th>Beli</th><th>Kbl</th><th>Hutang(Rp)</th></tr>
+        <div class="modal-body bg-light p-4" id="areaRekapMutasi">
+          <div class="bg-white p-4 rounded-4 shadow-sm border" id="cetakMutasiArea">
+            <h4 class="fw-bold text-center mb-1 text-dark" id="mutasiNama">-</h4>
+            <p class="text-center text-muted small mb-4 pb-2 border-bottom">Rekapitulasi Tabung & Hutang Uang</p>
+            <table class="table table-sm table-borderless table-striped" style="font-size: 13px;">
+              <thead class="text-center border-bottom text-muted">
+                <tr><th class="text-start pb-2">Tanggal</th><th class="pb-2">Beli</th><th class="pb-2">Kbl</th><th class="text-end pb-2">Hutang(Rp)</th></tr>
               </thead>
               <tbody id="mutasiTabelBody"></tbody>
             </table>
-            <div class="alert alert-danger p-2 mb-0 border-danger" style="font-size: 13px;">
-              <strong>SISA TUNGGAKAN SAAT INI:</strong><br>
-              Tabung Dipinjam : <span id="mutasiTotalTabung" class="fw-bold fs-6">0</span> Tabung<br>
-              Hutang Uang : <span id="mutasiTotalUang" class="fw-bold fs-6 text-danger">Rp 0</span>
+            <div class="mt-4 p-3 bg-danger bg-opacity-10 rounded-3 border border-danger border-opacity-25">
+              <strong class="text-danger d-block mb-2 text-center" style="font-size: 12px; letter-spacing: 1px;">SISA TUNGGAKAN SAAT INI</strong>
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="text-dark small">Tabung Dipinjam:</span>
+                <span id="mutasiTotalTabung" class="fw-bold fs-6 text-dark">0 Tabung</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="text-dark small">Hutang Uang:</span>
+                <span id="mutasiTotalUang" class="fw-bold fs-5 text-danger">Rp 0</span>
+              </div>
             </div>
           </div>
         </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-success btn-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim Tagihan (JPG)</button>
+        <div class="modal-footer justify-content-center bg-white border-0 rounded-bottom-4 py-3">
+          <button type="button" class="btn btn-success fw-bold px-4 py-2 rounded-pill shadow-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim ke WhatsApp (JPG)</button>
         </div>
       </div>
     </div>
@@ -271,14 +292,14 @@
   <!-- MODAL DETAIL PINJAMAN ASET -->
   <div class="modal fade" id="modalDetailPinjaman" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header bg-danger text-white py-2">
-          <h6 class="modal-title"><i class="fas fa-exclamation-circle me-2"></i>Daftar Peminjam Tabung</h6>
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header bg-danger text-white py-3 border-0 rounded-top-4">
+          <h6 class="modal-title fw-bold"><i class="fas fa-exclamation-circle me-2"></i>Daftar Peminjam Tabung</h6>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body bg-light p-0">
-          <table class="table table-hover mb-0 text-center">
-            <thead class="table-light sticky-top"><tr><th>Nama Pelanggan</th><th>Jumlah Pinjam</th></tr></thead>
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light sticky-top shadow-sm text-muted"><tr><th class="px-4 py-3">Nama Pelanggan</th><th class="text-center px-4 py-3">Jumlah Pinjam</th></tr></thead>
             <tbody id="tabelDaftarPinjaman"></tbody>
           </table>
         </div>
@@ -344,7 +365,6 @@
     };
 
     function refreshSemuaData() {
-      // Load Pelanggan
       fetch(API_URL + "?sheet=Pelanggan").then(r => r.json()).then(data => {
         customersData = data.data;
         const select = document.getElementById('namaPelanggan'); select.innerHTML = '<option value="">-- Cari Nama --</option>';
@@ -353,30 +373,63 @@
         data.data.forEach(p => { 
           if(p.Nama_Pelanggan) {
             select.add(new Option(p.Nama_Pelanggan, p.Nama_Pelanggan)); 
-            tbodyPelanggan.innerHTML += `<tr><td class="text-start fw-bold"><span class="nama-pelanggan-link" onclick="lihatMutasi('${p.Nama_Pelanggan}')">${p.Nama_Pelanggan}</span></td><td><span class="badge bg-secondary">${p.Katagori || '-'}</span></td><td class="text-success fw-bold">Rp${Number(p.Harga_Khusus).toLocaleString('id-ID')}</td></tr>`;
+            
+            // DESAIN UI EKSKLUSIF DAFTAR PELANGGAN
+            let ikonUser = p.Katagori === 'Warung' ? 'fa-store' : (p.Katagori === 'Kandang' ? 'fa-home' : 'fa-user');
+            
+            tbodyPelanggan.innerHTML += `
+              <tr>
+                <td class="px-4 py-3">
+                  <div class="nama-pelanggan-link d-flex align-items-center" onclick="lihatMutasi('${p.Nama_Pelanggan}')">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm border border-primary border-opacity-25" style="width: 40px; height: 40px; min-width: 40px;">
+                      <i class="fas ${ikonUser}"></i>
+                    </div>
+                    <div>
+                      <div class="fw-bold text-dark" style="font-size: 1.05rem;">${p.Nama_Pelanggan}</div>
+                      <small class="text-muted" style="font-size: 0.75rem;">Klik lihat buku hutang</small>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center"><span class="badge bg-light border text-secondary px-3 py-2 rounded-pill shadow-sm" style="font-weight: 600;">${p.Katagori || '-'}</span></td>
+                <td class="text-end px-4 text-success fw-bold fs-6">Rp${Number(p.Harga_Khusus).toLocaleString('id-ID')}</td>
+              </tr>
+            `;
           }
         });
         document.getElementById('totalPelangganBadge').innerText = data.data.filter(p=>p.Nama_Pelanggan).length;
       });
 
-      // Load Transaksi
       fetch(API_URL + "?sheet=Transaksi").then(r => r.json()).then(res => {
         riwayatData = res.data;
         const tbody = document.getElementById('tabelRiwayat'); tbody.innerHTML = "";
         res.data.reverse().slice(0, 5).forEach(t => {
-          tbody.innerHTML += `<tr><td><span class="nama-pelanggan-link fw-bold" onclick="lihatMutasi('${t.Nama_Pelanggan}')">${t.Nama_Pelanggan}</span><br><small class="text-muted">${t.ID_Transaksi}</small></td><td class="fw-bold text-success">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td><td><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></button></td></tr>`;
+          // DESAIN UI EKSKLUSIF RIWAYAT KASIR
+          tbody.innerHTML += `
+            <tr>
+              <td class="px-4 py-3">
+                <div class="nama-pelanggan-link d-flex align-items-center p-0 bg-transparent" onclick="lihatMutasi('${t.Nama_Pelanggan}')">
+                  <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 35px; height: 35px; min-width: 35px; font-size: 14px;">
+                    <i class="fas fa-file-invoice"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-dark" style="font-size: 0.95rem;">${t.Nama_Pelanggan}</div>
+                    <small class="text-muted" style="font-size: 0.75rem; font-family: monospace;">${t.ID_Transaksi}</small>
+                  </div>
+                </div>
+              </td>
+              <td class="fw-bold text-success align-middle">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td>
+              <td class="align-middle"><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-light border shadow-sm text-primary rounded-circle" style="width: 32px; height: 32px;"><i class="fas fa-print"></i></button></td>
+            </tr>`;
         });
         kalkulasiAsetGudang();
       });
 
-      // Load Stok
       fetch(API_URL + "?sheet=Stok").then(r => r.json()).then(res => {
         stokData = res.data;
         kalkulasiStokIsi();
       });
     }
 
-    // --- MESIN STOK HIDUP & PERINGATAN GANDA ---
     function kalkulasiStokIsi() {
       let totalMasuk = 0; let waktuRestokTerakhir = null; let jumlahRestokTerakhir = 0;
       stokData.forEach(s => {
@@ -388,7 +441,6 @@
       let totalKeluar = 0; riwayatData.forEach(t => totalKeluar += (parseInt(t.Gas_Beli) || 0));
       document.getElementById('angkaStokIsi').innerText = totalMasuk - totalKeluar;
 
-      // Teks Restok Terakhir
       if(waktuRestokTerakhir) {
         document.getElementById('infoRestokTerakhir').innerHTML = `<i class="fas fa-history me-1"></i>Terakhir masuk: <span class="fw-bold text-dark">${jumlahRestokTerakhir} Tabung</span> pada ${formatTanggalPendek(new Date(waktuRestokTerakhir))}`;
       } else {
@@ -400,7 +452,6 @@
       const jumlah = parseInt(document.getElementById('jumlahRestok').value) || 0;
       if(jumlah <= 0) { alert("Jumlah tidak valid!"); return; }
 
-      // SISTEM ALARM PENCEGAH KLIK GANDA HARI YANG SAMA
       const hariIni = new Date().toLocaleDateString('id-ID');
       let sudahRestokHariIni = false;
       stokData.forEach(s => {
@@ -416,7 +467,7 @@
 
       if(!confirm(pesanKonfirmasi)) return;
 
-      const btn = this; const teksAsli = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mencatat Mutasi...'; btn.disabled = true;
+      const btn = this; const teksAsli = btn.innerHTML; btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Mencatat Mutasi...'; btn.disabled = true;
       const dataStok = [ new Date().toISOString(), "Terima Gas Agen", jumlah, 0, 0, jumlah, "", "" ];
 
       fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Stok", "data": dataStok}) })
@@ -424,13 +475,12 @@
         btn.innerHTML = 'Berhasil! Stok Bertambah'; btn.classList.replace('btn-warning', 'btn-success');
         setTimeout(() => { 
           btn.innerHTML = teksAsli; btn.classList.replace('btn-success', 'btn-warning'); btn.disabled = false; 
-          document.getElementById('jumlahRestok').value = 50; // Reset ke default
+          document.getElementById('jumlahRestok').value = 50; 
           refreshSemuaData(); 
         }, 2000);
       });
     });
 
-    // --- MESIN ASET GUDANG & PELANGGAN --- (Tidak Berubah, sama kuatnya)
     function editAset() {
       let input = prompt("Masukkan jumlah Total Fisik Modal Tabung Anda saat ini:", baseAsetGudang);
       if(input !== null && !isNaN(input) && input !== "") {
@@ -452,36 +502,35 @@
 
       const tbodyDetail = document.getElementById('tabelDaftarPinjaman'); tbodyDetail.innerHTML = "";
       for (const [nama, jumlah] of Object.entries(rekapDetailPinjaman)) {
-        if(jumlah > 0) tbodyDetail.innerHTML += `<tr><td class="text-start fw-bold">${nama}</td><td class="text-danger fw-bold">${jumlah} Tabung</td></tr>`;
+        if(jumlah > 0) tbodyDetail.innerHTML += `<tr><td class="text-start px-4 fw-bold text-dark">${nama}</td><td class="text-center px-4"><span class="badge bg-danger rounded-pill px-3 py-2 fs-6 shadow-sm">${jumlah} Tabung</span></td></tr>`;
       }
-      if(tbodyDetail.innerHTML === "") tbodyDetail.innerHTML = '<tr><td colspan="2" class="text-success">Tidak ada tabung di luar!</td></tr>';
+      if(tbodyDetail.innerHTML === "") tbodyDetail.innerHTML = '<tr><td colspan="2" class="text-success py-4 fw-bold">Tidak ada tabung di luar!</td></tr>';
     }
 
     function bukaDetailPinjaman() { modalDetailPinjaman.show(); }
 
     function lihatMutasi(nama) {
-      document.getElementById('mutasiNama').innerText = "Buku: " + nama;
+      document.getElementById('mutasiNama').innerText = nama;
       const txPelanggan = riwayatData.filter(t => t.Nama_Pelanggan === nama); 
       let totalPinjamTabung = 0; let totalHutangUang = 0; let barisTabel = '';
       txPelanggan.forEach(t => {
         const pinjam = (parseInt(t.Gas_Beli) || 0) - (parseInt(t.Tabung_Kembali) || 0);
         const hutangTx = (parseFloat(t.Total_Tagihan) || 0) - (parseFloat(t.Uang_Bayar) || 0);
         totalPinjamTabung += pinjam; totalHutangUang += hutangTx;
-        barisTabel += `<tr><td>${formatTanggalPendek(new Date(t.Tanggal_Waktu)).split(',')[0]}</td><td class="text-center">${t.Gas_Beli}</td><td class="text-center">${t.Tabung_Kembali}</td><td class="text-end text-danger">${hutangTx !== 0 ? hutangTx.toLocaleString('id-ID') : '-'}</td></tr>`;
+        barisTabel += `<tr><td class="text-start py-2 border-bottom text-dark">${formatTanggalPendek(new Date(t.Tanggal_Waktu)).split(',')[0]}</td><td class="text-center py-2 border-bottom fw-bold">${t.Gas_Beli}</td><td class="text-center py-2 border-bottom fw-bold">${t.Tabung_Kembali}</td><td class="text-end py-2 border-bottom text-danger fw-bold">${hutangTx !== 0 ? hutangTx.toLocaleString('id-ID') : '-'}</td></tr>`;
       });
-      document.getElementById('mutasiTabelBody').innerHTML = barisTabel || '<tr><td colspan="4" class="text-center">Belum ada transaksi</td></tr>';
-      document.getElementById('mutasiTotalTabung').innerText = totalPinjamTabung;
-      document.getElementById('mutasiTotalUang').innerText = "Rp " + totalHutangUang.toLocaleString('id-ID');
+      document.getElementById('mutasiTabelBody').innerHTML = barisTabel || '<tr><td colspan="4" class="text-center py-4 text-muted">Belum ada transaksi</td></tr>';
+      document.getElementById('mutasiTotalTabung').innerText = `${totalPinjamTabung} Tabung`;
+      document.getElementById('mutasiTotalUang').innerText = `Rp ${totalHutangUang.toLocaleString('id-ID')}`;
       modalMutasi.show();
     }
 
-    // --- FORM PELANGGAN & TRANSAKSI ---
     document.getElementById('formPelanggan').addEventListener('submit', function(e) {
-      e.preventDefault(); const btn = document.getElementById('btnSimpanPelanggan'); btn.disabled = true; btn.innerHTML = 'Menyimpan...';
+      e.preventDefault(); const btn = document.getElementById('btnSimpanPelanggan'); btn.disabled = true; btn.innerHTML = '<i class="fas fa-circle-notch fa-spin me-2"></i>Menyimpan...';
       const dataRecord = [ document.getElementById('baruNama').value, document.getElementById('baruKategori').value, document.getElementById('baruHarga').value ];
       fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Pelanggan", "data": dataRecord}) })
       .then(() => {
-        btn.innerHTML = 'Tersimpan!'; btn.classList.replace('btn-primary', 'btn-success'); document.getElementById('formPelanggan').reset();
+        btn.innerHTML = '<i class="fas fa-check-circle me-2"></i>Tersimpan!'; btn.classList.replace('btn-primary', 'btn-success'); document.getElementById('formPelanggan').reset();
         setTimeout(() => { btn.innerHTML = '<i class="fas fa-save me-2"></i>Simpan Pelanggan'; btn.classList.replace('btn-success', 'btn-primary'); btn.disabled = false; refreshSemuaData(); }, 1500);
       });
     });
@@ -513,7 +562,6 @@
       });
     });
 
-    // --- CETAK & SHARE GAMBAR ---
     document.getElementById('btnCetak').addEventListener('click', () => window.print());
     function bagikanGambar(elemenId, namaFile) {
       html2canvas(document.getElementById(elemenId), { scale: 2 }).then(canvas => {
