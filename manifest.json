@@ -1,0 +1,16 @@
+{
+  "name": "Toko Gas Ummi Nusa",
+  "short_name": "Gas Ummi",
+  "description": "Sistem Kasir dan Inventori",
+  "start_url": "/?mode=pwa",
+  "display": "standalone",
+  "background_color": "#f4f6f9",
+  "theme_color": "#007bff",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/3d-fluency/512/gas-industry.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
