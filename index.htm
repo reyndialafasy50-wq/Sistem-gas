@@ -6,7 +6,7 @@
   <title>Toko Gas Ummi Nusa Pro</title>
   
   <!-- ================================================== -->
-  <!-- KODE PWA DENGAN LOGO GASKU.PNG                     -->
+  <!-- KODE V20 - PWA DENGAN TOMBOL REFRESH & ANTI-BALAPAN -->
   <!-- ================================================== -->
   <link rel="manifest" href='data:application/manifest+json,{"name":"Toko Gas Ummi Nusa","short_name":"Gas Ummi","description":"Sistem Kasir dan Inventori","start_url":".","display":"standalone","background_color":"#f4f6f9","theme_color":"#007bff","icons":[{"src":"Gasku.png","sizes":"512x512","type":"image/png"}]}'>
   <meta name="theme-color" content="#007bff">
@@ -14,7 +14,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Gas Ummi">
   
-  <!-- MEMANGGIL FILE Gasku.png DARI GITHUB ANDA -->
   <link rel="apple-touch-icon" href="Gasku.png?v=FINAL">
   <link rel="icon" type="image/png" href="Gasku.png?v=FINAL">
   
@@ -34,12 +33,23 @@
     
     .nama-pelanggan-box { cursor: pointer; transition: all 0.2s; padding: 12px; border-radius: 15px; display: flex; align-items: center; background: #ffffff; border: 1px solid #f1f3f5; }
     .nama-pelanggan-box:hover { background-color: #f8f9fa; transform: translateY(-2px); border-color: #0d6efd; }
+    
+    /* Animasi putar untuk tombol refresh */
+    .spin-animation { animation: spin 1s linear infinite; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    
     @media print { body * { visibility: hidden; } #areaStruk, #areaStruk * { visibility: visible; } #areaStruk { position: fixed; left: 0; top: 0; width: 80mm; margin: 0; padding: 0; } }
   </style>
 </head>
 <body>
 
-  <div class="container mt-4 mb-5">
+  <div class="container mt-4 mb-5 position-relative">
+    
+    <!-- TOMBOL REFRESH BARU -->
+    <button onclick="refreshSemuaData()" class="btn btn-white bg-white shadow-sm position-absolute top-0 end-0 rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; z-index: 100; border: 1px solid #dee2e6;" title="Refresh Data">
+      <i id="ikonRefresh" class="fas fa-sync-alt text-primary fs-5"></i>
+    </button>
+
     <div id="alertError" class="alert alert-danger d-none fw-bold shadow-sm" role="alert"></div>
 
     <div class="text-center mb-4 mt-2">
@@ -86,14 +96,13 @@
                   <button type="submit" id="btnSimpan" class="btn btn-primary btn-lg fw-bold py-3 shadow-sm rounded-4"><i class="fas fa-save me-2"></i>SIMPAN TRANSAKSI</button>
                 </div>
               </form>
-              <div id="statusTransaksi" class="mt-3 text-center d-none"></div>
             </div>
           </div>
         </div>
 
         <div class="col-lg-6">
           <div class="card card-master">
-            <div class="card-header header-success py-3 text-center"><h5 class="mb-0 fw-bold">Riwayat & Mutasi (5 Terakhir)</h5></div>
+            <div class="card-header header-success py-3 text-center"><h5 class="mb-0 fw-bold">Riwayat Terakhir</h5></div>
             <div class="card-body p-0">
               <div class="table-responsive">
                 <table class="table table-hover mb-0 align-middle">
@@ -116,7 +125,7 @@
             <div class="card-body p-4 p-md-5">
               <div class="mb-4 p-4 border-0 rounded-4 bg-light shadow-sm">
                 <h6 class="text-muted fw-bold mb-2">STOK ISI SIAP JUAL</h6>
-                <h1 class="display-2 fw-bold text-success mb-0" id="angkaStokIsi">0</h1>
+                <h1 class="display-2 fw-bold text-success mb-0" id="angkaStokIsi">-</h1>
                 <small class="text-muted">Akumulasi Stok Gudang Saat Ini</small>
               </div>
               <h5 class="fw-bold mb-3">Input Gas Masuk</h5>
@@ -154,7 +163,7 @@
           <div class="card card-master bg-success text-white h-100 shadow">
             <div class="card-body text-center py-5">
               <h6 class="opacity-75 text-uppercase mb-3 small fw-bold">Ada di Gudang</h6>
-              <h1 class="fw-bold display-3" id="angkaDiGudang">0</h1>
+              <h1 class="fw-bold display-3" id="angkaDiGudang">-</h1>
               <small class="opacity-75">Isi + Kosong di Toko</small>
             </div>
           </div>
@@ -163,7 +172,7 @@
           <div class="card card-master bg-danger text-white h-100 shadow" onclick="bukaDetailPinjaman()" style="cursor:pointer">
             <div class="card-body text-center py-5">
               <h6 class="opacity-75 text-uppercase mb-3 small fw-bold">Dipinjam Pelanggan</h6>
-              <h1 class="fw-bold display-3" id="angkaDipinjam">0</h1>
+              <h1 class="fw-bold display-3" id="angkaDipinjam">-</h1>
               <small class="opacity-75 text-decoration-underline">Klik Lihat Detail</small>
             </div>
           </div>
@@ -209,7 +218,7 @@
 
   <!-- MODAL AREA -->
   <div class="modal fade" id="modalStruk" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-body bg-light p-4 rounded-top-4"><div id="areaStruk" class="bg-white p-3 shadow-sm border" style="width: 270px; font-family: 'Courier New', Courier, monospace; color: black; line-height: 1.4;"></div></div><div class="modal-footer justify-content-center bg-white border-0 rounded-bottom-4"><button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Tutup</button><button type="button" class="btn btn-primary btn-sm fw-bold" id="btnCetak"><i class="fas fa-print me-1"></i> Cetak</button><button type="button" class="btn btn-success btn-sm fw-bold" id="btnBagikan"><i class="fab fa-whatsapp me-1"></i> WA</button></div></div></div></div>
-  <div class="modal fade" id="modalMutasi" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-primary text-white py-3 border-0 rounded-top-4"><h6 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>Buku Hutang & Mutasi</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light p-4" id="areaRekapMutasi"><div class="bg-white p-4 rounded-4 shadow-sm border" id="cetakMutasiArea"><h4 class="fw-bold text-center mb-1 text-primary" id="mutasiNama">-</h4><p class="text-center text-muted small mb-4 pb-2 border-bottom">Rekapitulasi Tabung & Hutang Uang</p><table class="table table-sm table-borderless table-striped" style="font-size: 13px;"><thead class="text-center border-bottom text-muted"><tr><th class="text-start pb-2">Tanggal</th><th class="pb-2">Beli</th><th class="pb-2">Kbl</th><th class="text-end pb-2">Hutang</th></tr></thead><tbody id="mutasiTabelBody"></tbody></table><div class="mt-4 p-3 bg-danger bg-opacity-10 rounded-3 border border-danger border-opacity-25"><div class="d-flex justify-content-between mb-1"><span class="small fw-bold">Tabung Dipinjam:</span><span id="mutasiTotalTabung" class="fw-bold">0</span></div><div class="d-flex justify-content-between"><span class="small fw-bold">Hutang Uang:</span><span id="mutasiTotalUang" class="fw-bold text-danger">Rp 0</span></div></div></div></div><div class="modal-footer justify-content-center bg-white border-0 py-3"><button type="button" class="btn btn-success fw-bold px-4 rounded-pill shadow-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim WA (JPG)</button></div></div></div></div>
+  <div class="modal fade" id="modalMutasi" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-primary text-white py-3 border-0 rounded-top-4"><h6 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>Buku Piutang & Mutasi</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light p-4" id="areaRekapMutasi"><div class="bg-white p-4 rounded-4 shadow-sm border" id="cetakMutasiArea"><h4 class="fw-bold text-center mb-1 text-primary" id="mutasiNama">-</h4><p class="text-center text-muted small mb-4 pb-2 border-bottom">Rekapitulasi Tabung & Piutang Uang</p><table class="table table-sm table-borderless table-striped" style="font-size: 13px;"><thead class="text-center border-bottom text-muted"><tr><th class="text-start pb-2">Tanggal</th><th class="pb-2">Beli</th><th class="pb-2">Kbl</th><th class="text-end pb-2">Hutang</th></tr></thead><tbody id="mutasiTabelBody"></tbody></table><div class="mt-4 p-3 bg-danger bg-opacity-10 rounded-3 border border-danger border-opacity-25"><div class="d-flex justify-content-between mb-1"><span class="small fw-bold">Tabung Dipinjam:</span><span id="mutasiTotalTabung" class="fw-bold">0</span></div><div class="d-flex justify-content-between"><span class="small fw-bold">Hutang Uang:</span><span id="mutasiTotalUang" class="fw-bold text-danger">Rp 0</span></div></div></div></div><div class="modal-footer justify-content-center bg-white border-0 py-3"><button type="button" class="btn btn-success fw-bold px-4 rounded-pill shadow-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim WA (JPG)</button></div></div></div></div>
   <div class="modal fade" id="modalDetailPinjaman" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-danger text-white py-3"><h6 class="modal-title fw-bold"><i class="fas fa-exclamation-circle me-2"></i>Daftar Peminjam Tabung</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light p-0"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th class="px-4 py-3">Nama</th><th class="text-center px-4 py-3">Pinjam</th></tr></thead><tbody id="tabelDaftarPinjaman"></tbody></table></div></div></div></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -266,46 +275,62 @@
       alertBox.classList.remove('d-none');
     }
 
+    // KODE ANTI-BALAPAN & TOMBOL REFRESH
     function refreshSemuaData() {
-      fetch(API_URL + "?sheet=Pelanggan").then(r => r.json()).then(data => {
-        customersData = data.data;
+      const ikonRef = document.getElementById('ikonRefresh');
+      ikonRef.classList.add('spin-animation');
+      
+      // Ambil 3 data sekaligus, tunggu sampai semuanya selesai ditarik (Promise.all)
+      Promise.all([
+        fetch(API_URL + "?sheet=Pelanggan").then(r => r.json()),
+        fetch(API_URL + "?sheet=Transaksi").then(r => r.json()),
+        fetch(API_URL + "?sheet=Stok").then(r => r.json())
+      ])
+      .then(([resPelanggan, resTransaksi, resStok]) => {
+        // 1. PROSES DATA PELANGGAN
+        customersData = resPelanggan.data || [];
         const select = document.getElementById('namaPelanggan'); select.innerHTML = '<option value="">-- Cari Nama --</option>';
         const tbodyPelanggan = document.getElementById('tabelDaftarPelanggan'); tbodyPelanggan.innerHTML = '';
         let jumlahPelanggan = 0;
         
-        if(!data.data || data.data.length === 0) {
-            select.innerHTML = '<option value="">-- Data Pelanggan Kosong --</option>';
-        } else {
-            data.data.forEach(p => { 
-            let namaPlg = p.Nama_Pelanggan || p["Nama Pelanggan"] || p.Nama || "";
-            let katPlg = p.Kategori || p.Katagori || "-";
-            let hargaPlg = p.Harga_Khusus || p.Harga || 0;
+        if(customersData.length > 0) {
+            customersData.forEach(p => { 
+                let namaPlg = p.Nama_Pelanggan || p["Nama Pelanggan"] || p.Nama || "";
+                let katPlg = p.Kategori || p.Katagori || "-";
+                let hargaPlg = p.Harga_Khusus || p.Harga || 0;
 
-            if(namaPlg !== "") {
-                jumlahPelanggan++; select.add(new Option(namaPlg, namaPlg)); 
-                let ikon = katPlg === 'Warung' ? 'fa-store' : (katPlg === 'Kandang' ? 'fa-home' : 'fa-user');
-                tbodyPelanggan.innerHTML += `<tr><td class="px-4 py-2"><div class="nama-pelanggan-box" onclick="lihatMutasi('${namaPlg}')"><div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width:38px;height:38px;"><i class="fas ${ikon}"></i></div><div class="fw-bold text-dark">${namaPlg}</div></div></td><td class="text-end px-4 text-success fw-bold">Rp${Number(hargaPlg).toLocaleString('id-ID')}</td></tr>`;
-            }
+                if(namaPlg !== "") {
+                    jumlahPelanggan++; select.add(new Option(namaPlg, namaPlg)); 
+                    let ikon = katPlg === 'Warung' ? 'fa-store' : (katPlg === 'Kandang' ? 'fa-home' : 'fa-user');
+                    tbodyPelanggan.innerHTML += `<tr><td class="px-4 py-2"><div class="nama-pelanggan-box" onclick="lihatMutasi('${namaPlg}')"><div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width:38px;height:38px;"><i class="fas ${ikon}"></i></div><div class="fw-bold text-dark">${namaPlg}</div></div></td><td class="text-end px-4 text-success fw-bold">Rp${Number(hargaPlg).toLocaleString('id-ID')}</td></tr>`;
+                }
             });
         }
         document.getElementById('totalPelangganBadge').innerText = jumlahPelanggan;
-      }).catch(err => showError("Gagal terhubung ke Google Sheets."));
 
-      fetch(API_URL + "?sheet=Transaksi").then(r => r.json()).then(res => {
-        riwayatData = res.data || [];
+        // 2. PROSES DATA TRANSAKSI
+        riwayatData = resTransaksi.data || [];
         const tbody = document.getElementById('tabelRiwayat'); tbody.innerHTML = "";
-        if(riwayatData.length === 0) { tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Belum ada transaksi hari ini</td></tr>'; }
-        else {
-            res.data.reverse().slice(0, 5).forEach(t => {
-            let namaT = t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama || "-";
-            tbody.innerHTML += `<tr><td class="px-4 py-2"><div class="fw-bold text-dark" onclick="lihatMutasi('${namaT}')" style="cursor:pointer">${namaT}</div><small class="text-muted" style="font-size:10px">${t.ID_Transaksi}</small></td><td class="fw-bold text-success">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td><td class="text-center"><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-light border"><i class="fas fa-print"></i></button></td></tr>`;
+        if(riwayatData.length === 0) { 
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Belum ada transaksi hari ini</td></tr>'; 
+        } else {
+            [...riwayatData].reverse().slice(0, 5).forEach(t => {
+                let namaT = t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama || "-";
+                tbody.innerHTML += `<tr><td class="px-4 py-2"><div class="fw-bold text-dark" onclick="lihatMutasi('${namaT}')" style="cursor:pointer">${namaT}</div><small class="text-muted" style="font-size:10px">${t.ID_Transaksi}</small></td><td class="fw-bold text-success">Rp${Number(t.Total_Tagihan).toLocaleString('id-ID')}</td><td class="text-center"><button onclick="cetakDariRiwayat('${t.ID_Transaksi}')" class="btn btn-sm btn-light border"><i class="fas fa-print"></i></button></td></tr>`;
             });
         }
+        
+        // 3. PROSES DATA STOK (DIJAMIN TIDAK BALAPAN LAGI KARENA TRANSAKSI SUDAH DITARIK 100%)
+        stokData = resStok.data || []; 
+        kalkulasiStokIsi();
         kalkulasiAsetGudang();
-      });
+        
+        // Matikan animasi loading
+        setTimeout(() => ikonRef.classList.remove('spin-animation'), 500);
 
-      fetch(API_URL + "?sheet=Stok").then(r => r.json()).then(res => {
-        stokData = res.data || []; kalkulasiStokIsi();
+      }).catch(err => {
+          showError("Gagal terhubung. Cek koneksi internet.");
+          ikonRef.classList.remove('spin-animation');
       });
     }
 
@@ -314,7 +339,7 @@
       stokData.forEach(s => { const masuk = parseInt(s.Tabung_Isi_Masuk) || 0; totalMasuk += masuk; if(masuk > 0) { terakhir = s.Tanggal_Waktu; jmlTerakhir = masuk; } });
       let totalKeluar = 0; riwayatData.forEach(t => totalKeluar += (parseInt(t.Gas_Beli) || 0));
       document.getElementById('angkaStokIsi').innerText = totalMasuk - totalKeluar;
-      document.getElementById('infoRestokTerakhir').innerHTML = terakhir ? `<i class="fas fa-history me-1"></i>Terakhir: <span class="fw-bold">${jmlTerakhir} Tabung</span>` : "Belum ada riwayat masuk.";
+      document.getElementById('infoRestokTerakhir').innerHTML = terakhir ? `<i class="fas fa-history me-1"></i>Terakhir input: <span class="fw-bold">${jmlTerakhir} Tabung</span>` : "Belum ada riwayat masuk.";
     }
 
     document.getElementById('btnRestokAgen').addEventListener('click', function() {
@@ -322,8 +347,8 @@
       const tgl = new Date().toLocaleDateString('id-ID'); let ganda = false;
       stokData.forEach(s => { if(parseInt(s.Tabung_Isi_Masuk) > 0 && new Date(s.Tanggal_Waktu).toLocaleDateString('id-ID') === tgl) ganda = true; });
       if(ganda && !confirm("⚠️ SUDAH input gas hari ini. Tambah lagi?")) return; else if(!ganda && !confirm(`Terima ${jml} tabung?`)) return;
-      const btn = this; btn.disabled = true; btn.innerHTML = "Mencatat...";
-      fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Stok", "data": [new Date().toISOString(), "Terima Agen", jml, 0, 0, jml, "", ""]}) }).then(() => { refreshSemuaData(); btn.disabled = false; btn.innerHTML = "Berhasil!"; setTimeout(()=>btn.innerHTML="SIMPAN DATA GAS MASUK", 2000); });
+      const btn = this; btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mencatat...';
+      fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Stok", "data": [new Date().toISOString(), "Terima Agen", jml, 0, 0, jml, "", ""]}) }).then(() => { refreshSemuaData(); btn.disabled = false; btn.innerHTML = '<i class="fas fa-check me-2"></i>Berhasil!'; setTimeout(()=>btn.innerHTML='<i class="fas fa-download me-2"></i>SIMPAN DATA GAS MASUK', 2000); });
     });
 
     function editAset() { let i = prompt("Total Modal Tabung:", baseAsetGudang); if(i && !isNaN(i)) { baseAsetGudang = parseInt(i); localStorage.setItem('gas_base_aset', i); document.getElementById('angkaModalAset').innerText = i; kalkulasiAsetGudang(); } }
@@ -370,16 +395,16 @@
     function cetakDariRiwayat(idTx) { let t = riwayatData.find(x => x.ID_Transaksi === idTx); if(t) { let tgl = new Date(t.Tanggal_Waktu); let dd = String(tgl.getDate()).padStart(2, '0'); let mm = String(tgl.getMonth() + 1).padStart(2, '0'); let yy = String(tgl.getFullYear()).slice(-2); let h = String(tgl.getHours()).padStart(2, '0'); let m = String(tgl.getMinutes()).padStart(2, '0'); document.getElementById('waktuDisplay').value = `${dd}/${mm}/${yy}, ${h}.${m}`; tampilkanStruk([t.ID_Transaksi, t.Tanggal_Waktu, (t.Nama_Pelanggan||t["Nama Pelanggan"]||t.Nama), t.Gas_Beli, t.Tabung_Kembali, t.Total_Tagihan, t.Uang_Bayar, t.Hutang_Uang, "YA", (t.Gas_Beli-t.Tabung_Kembali)]); } }
 
     document.getElementById('formTransaksi').addEventListener('submit', function(e) {
-      e.preventDefault(); const btn = document.getElementById('btnSimpan'); const status = document.getElementById('statusTransaksi'); btn.disabled = true; status.classList.remove('d-none'); status.innerHTML = 'Menyimpan...';
+      e.preventDefault(); const btn = document.getElementById('btnSimpan'); btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mencatat...';
       const gBeli = parseInt(document.getElementById('gasBeli').value)||0; const tKbl = parseInt(document.getElementById('tabungKembali').value)||0;
       const rec = [ document.getElementById('idTransaksi').value, new Date().toISOString(), document.getElementById('namaPelanggan').value, gBeli, tKbl, document.getElementById('totalTagihan').value||0, document.getElementById('uangBayar').value||0, document.getElementById('hutangUang').value||0, "YA", (gBeli - tKbl) ];
-      fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Transaksi", "data": rec}) }).then(() => { nextId++; localStorage.setItem('gas_id', nextId); tampilkanStruk(rec); setTimeout(() => { resetForm(); btn.disabled = false; status.classList.add('d-none'); refreshSemuaData(); }, 1500); });
+      fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Transaksi", "data": rec}) }).then(() => { nextId++; localStorage.setItem('gas_id', nextId); tampilkanStruk(rec); setTimeout(() => { resetForm(); btn.disabled = false; btn.innerHTML = '<i class="fas fa-save me-2"></i>SIMPAN TRANSAKSI'; refreshSemuaData(); }, 1500); });
     });
 
     document.getElementById('btnCetak').addEventListener('click', () => window.print());
-    function bagikanGambar(id, name) { html2canvas(document.getElementById(id), { scale: 2 }).then(canvas => { canvas.toBlob(blob => { const f = new File([blob], name, { type: 'image/jpeg' }); if (navigator.canShare && navigator.canShare({ files: [f] })) { navigator.share({ files: [f], title: 'Data Gas Ummi Nusa' }); } else alert('Gunakan Safari iPad.'); }, 'image/jpeg', 0.9); }); }
+    function bagikanGambar(id, name) { html2canvas(document.getElementById(id), { scale: 2 }).then(canvas => { canvas.toBlob(blob => { const f = new File([blob], name, { type: 'image/jpeg' }); if (navigator.canShare && navigator.canShare({ files: [f] })) { navigator.share({ files: [f], title: 'Data Gas Ummi Nusa' }); } else alert('Bagikan langsung lewat menu print / screenshot untuk HP ini.'); }, 'image/jpeg', 0.9); }); }
     document.getElementById('btnBagikan').addEventListener('click', () => bagikanGambar('areaStruk', 'Struk.jpg'));
     document.getElementById('btnKirimMutasi').addEventListener('click', () => bagikanGambar('cetakMutasiArea', 'BukuHutang.jpg'));
   </script>
 </body>
-</html> 
+</html>
