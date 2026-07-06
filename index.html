@@ -31,7 +31,6 @@
     .nama-pelanggan-box { cursor: pointer; transition: all 0.2s; padding: 12px; border-radius: 15px; display: flex; align-items: center; background: #ffffff; border: 1px solid #f1f3f5; }
     .nama-pelanggan-box:hover { background-color: #f8f9fa; transform: translateY(-2px); border-color: #0d6efd; }
     
-    /* Animasi putar untuk tombol refresh */
     .spin-animation { animation: spin 1s linear infinite; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     
@@ -78,10 +77,22 @@
                   <label class="fw-bold mb-1">Pilih Pelanggan</label>
                   <select class="form-select form-select-lg border-primary shadow-sm" id="namaPelanggan" required><option value="">-- Menunggu Data... --</option></select>
                 </div>
-                <div class="row mb-3">
-                  <div class="col-6"><label class="small fw-bold mb-1">Gas Beli (Tabung)</label><input type="number" class="form-control form-control-lg border-primary shadow-sm" id="gasBeli" required min="0" placeholder="0"></div>
-                  <div class="col-6"><label class="small fw-bold text-info mb-1">Kosong Kembali</label><input type="number" class="form-control form-control-lg border-info shadow-sm" id="tabungKembali" required min="0" placeholder="0"></div>
+                
+                <div class="row mb-3 text-center">
+                  <div class="col-4">
+                    <label class="small fw-bold text-primary mb-1">Gas Beli (Isi)</label>
+                    <input type="number" class="form-control form-control-lg border-primary shadow-sm text-center" id="gasBeli" required min="0" placeholder="0">
+                  </div>
+                  <div class="col-4">
+                    <label class="small fw-bold text-warning mb-1">Pinjam Ksg</label>
+                    <input type="number" class="form-control form-control-lg border-warning shadow-sm text-center" id="pinjamKosong" min="0" placeholder="0">
+                  </div>
+                  <div class="col-4">
+                    <label class="small fw-bold text-info mb-1">Kosong Kbl</label>
+                    <input type="number" class="form-control form-control-lg border-info shadow-sm text-center" id="tabungKembali" required min="0" placeholder="0">
+                  </div>
                 </div>
+
                 <div class="row mb-4">
                   <div class="col-4"><label class="small fw-bold text-success mb-1">Tagihan (Rp)</label><input type="number" class="form-control fw-bold text-success bg-light border-0" id="totalTagihan" readonly placeholder="0"></div>
                   <div class="col-4"><label class="small fw-bold mb-1">Bayar (Rp)</label><input type="number" class="form-control border-warning shadow-sm" id="uangBayar" required min="0" placeholder="0"></div>
@@ -209,7 +220,8 @@
   </div>
 
   <div class="modal fade" id="modalStruk" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-body bg-light p-4 rounded-top-4"><div id="areaStruk" class="bg-white p-3 shadow-sm border" style="width: 270px; font-family: 'Courier New', Courier, monospace; color: black; line-height: 1.4;"></div></div><div class="modal-footer justify-content-center bg-white border-0 rounded-bottom-4"><button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Tutup</button><button type="button" class="btn btn-primary btn-sm fw-bold" id="btnCetak"><i class="fas fa-print me-1"></i> Cetak</button><button type="button" class="btn btn-success btn-sm fw-bold" id="btnBagikan"><i class="fab fa-whatsapp me-1"></i> WA</button></div></div></div></div>
-  <div class="modal fade" id="modalMutasi" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-primary text-white py-3 border-0 rounded-top-4"><h6 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>Buku Piutang & Mutasi</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light p-4" id="areaRekapMutasi"><div class="bg-white p-4 rounded-4 shadow-sm border" id="cetakMutasiArea"><h4 class="fw-bold text-center mb-1 text-primary" id="mutasiNama">-</h4><p class="text-center text-muted small mb-4 pb-2 border-bottom">Rekapitulasi Tabung & Piutang Uang</p><table class="table table-sm table-borderless table-striped" style="font-size: 13px;"><thead class="text-center border-bottom text-muted"><tr><th class="text-start pb-2">Tanggal</th><th class="pb-2">Beli</th><th class="pb-2">Kbl</th><th class="text-end pb-2">Hutang</th></tr></thead><tbody id="mutasiTabelBody"></tbody></table><div class="mt-4 p-3 bg-danger bg-opacity-10 rounded-3 border border-danger border-opacity-25"><div class="d-flex justify-content-between mb-1"><span class="small fw-bold">Tabung Dipinjam:</span><span id="mutasiTotalTabung" class="fw-bold">0</span></div><div class="d-flex justify-content-between"><span class="small fw-bold">Hutang Uang:</span><span id="mutasiTotalUang" class="fw-bold text-danger">Rp 0</span></div></div></div></div><div class="modal-footer justify-content-center bg-white border-0 py-3"><button type="button" class="btn btn-success fw-bold px-4 rounded-pill shadow-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim WA (JPG)</button></div></div></div></div>
+  
+  <div class="modal fade" id="modalMutasi" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-primary text-white py-3 border-0 rounded-top-4"><h6 class="modal-title fw-bold"><i class="fas fa-book-open me-2"></i>Buku Piutang & Mutasi</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light p-4" id="areaRekapMutasi"><div class="bg-white p-4 rounded-4 shadow-sm border" id="cetakMutasiArea"><h4 class="fw-bold text-center mb-1 text-primary" id="mutasiNama">-</h4><p class="text-center text-muted small mb-4 pb-2 border-bottom">Rekapitulasi Tabung & Piutang Uang</p><table class="table table-sm table-borderless table-striped" style="font-size: 13px;"><thead class="text-center border-bottom text-muted"><tr><th class="text-start pb-2">Tanggal</th><th class="pb-2">Beli</th><th class="pb-2">Pjm</th><th class="pb-2">Kbl</th><th class="text-end pb-2">Hutang</th></tr></thead><tbody id="mutasiTabelBody"></tbody></table><div class="mt-4 p-3 bg-danger bg-opacity-10 rounded-3 border border-danger border-opacity-25"><div class="d-flex justify-content-between mb-1"><span class="small fw-bold">Tabung Dipinjam:</span><span id="mutasiTotalTabung" class="fw-bold">0</span></div><div class="d-flex justify-content-between"><span class="small fw-bold">Hutang Uang:</span><span id="mutasiTotalUang" class="fw-bold text-danger">Rp 0</span></div></div></div></div><div class="modal-footer justify-content-center bg-white border-0 py-3"><button type="button" class="btn btn-success fw-bold px-4 rounded-pill shadow-sm" id="btnKirimMutasi"><i class="fab fa-whatsapp me-2"></i>Kirim WA (JPG)</button></div></div></div></div>
   <div class="modal fade" id="modalDetailPinjaman" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-danger text-white py-3"><h6 class="modal-title fw-bold"><i class="fas fa-exclamation-circle me-2"></i>Daftar Peminjam Tabung</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body bg-light p-0"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th class="px-4 py-3">Nama</th><th class="text-center px-4 py-3">Pinjam</th></tr></thead><tbody id="tabelDaftarPinjaman"></tbody></table></div></div></div></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -233,7 +245,7 @@
 
     function resetForm() {
       document.getElementById('formTransaksi').reset();
-      document.getElementById('gasBeli').value = ''; document.getElementById('tabungKembali').value = '';
+      document.getElementById('gasBeli').value = ''; document.getElementById('pinjamKosong').value = ''; document.getElementById('tabungKembali').value = '';
       document.getElementById('uangBayar').value = ''; document.getElementById('totalTagihan').value = ''; document.getElementById('hutangUang').value = '';
       const now = new Date();
       const dd = String(now.getDate()).padStart(2, '0'); const mm = String(now.getMonth() + 1).padStart(2, '0');
@@ -266,19 +278,16 @@
       alertBox.classList.remove('d-none');
     }
 
-    // KODE ANTI-BALAPAN & TOMBOL REFRESH
     function refreshSemuaData() {
       const ikonRef = document.getElementById('ikonRefresh');
       ikonRef.classList.add('spin-animation');
       
-      // Ambil 3 data sekaligus, tunggu sampai semuanya selesai ditarik (Promise.all)
       Promise.all([
         fetch(API_URL + "?sheet=Pelanggan").then(r => r.json()),
         fetch(API_URL + "?sheet=Transaksi").then(r => r.json()),
         fetch(API_URL + "?sheet=Stok").then(r => r.json())
       ])
       .then(([resPelanggan, resTransaksi, resStok]) => {
-        // 1. PROSES DATA PELANGGAN
         customersData = resPelanggan.data || [];
         const select = document.getElementById('namaPelanggan'); select.innerHTML = '<option value="">-- Cari Nama --</option>';
         const tbodyPelanggan = document.getElementById('tabelDaftarPelanggan'); tbodyPelanggan.innerHTML = '';
@@ -299,7 +308,6 @@
         }
         document.getElementById('totalPelangganBadge').innerText = jumlahPelanggan;
 
-        // 2. PROSES DATA TRANSAKSI
         riwayatData = resTransaksi.data || [];
         const tbody = document.getElementById('tabelRiwayat'); tbody.innerHTML = "";
         if(riwayatData.length === 0) { 
@@ -311,12 +319,10 @@
             });
         }
         
-        // 3. PROSES DATA STOK (DIJAMIN TIDAK BALAPAN LAGI KARENA TRANSAKSI SUDAH DITARIK 100%)
         stokData = resStok.data || []; 
         kalkulasiStokIsi();
         kalkulasiAsetGudang();
         
-        // Matikan animasi loading
         setTimeout(() => ikonRef.classList.remove('spin-animation'), 500);
 
       }).catch(err => {
@@ -344,10 +350,13 @@
 
     function editAset() { let i = prompt("Total Modal Tabung:", baseAsetGudang); if(i && !isNaN(i)) { baseAsetGudang = parseInt(i); localStorage.setItem('gas_base_aset', i); document.getElementById('angkaModalAset').innerText = i; kalkulasiAsetGudang(); } }
 
+    // LOGIKA HITUNGAN TOTAL TABUNG DIPINJAM (BELI + PINJAM KOSONG - KEMBALI)
     function kalkulasiAsetGudang() {
       let dipinjam = 0; let rekap = {};
       riwayatData.forEach(t => { 
-        let namaT = t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama || "-"; let p = (parseInt(t.Gas_Beli)||0) - (parseInt(t.Tabung_Kembali)||0); 
+        let namaT = t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama || "-"; 
+        let pKsg = parseInt(t.Pinjam_Kosong || 0) || 0;
+        let p = (parseInt(t.Gas_Beli)||0) + pKsg - (parseInt(t.Tabung_Kembali)||0); 
         dipinjam += p; if(!rekap[namaT]) rekap[namaT] = 0; rekap[namaT] += p; 
       });
       document.getElementById('angkaDipinjam').innerText = dipinjam; document.getElementById('angkaDiGudang').innerText = baseAsetGudang - dipinjam;
@@ -362,12 +371,14 @@
       const tx = riwayatData.filter(t => (t.Nama_Pelanggan || t["Nama Pelanggan"] || t.Nama) === nama); 
       let pTab = 0; let hUang = 0; let rows = '';
       tx.forEach(t => { 
-        let p = (parseInt(t.Gas_Beli)||0)-(parseInt(t.Tabung_Kembali)||0); let h = (parseFloat(t.Total_Tagihan)||0)-(parseFloat(t.Uang_Bayar)||0);
+        let pKsg = parseInt(t.Pinjam_Kosong || 0) || 0;
+        let p = (parseInt(t.Gas_Beli)||0) + pKsg - (parseInt(t.Tabung_Kembali)||0); 
+        let h = (parseFloat(t.Total_Tagihan)||0)-(parseFloat(t.Uang_Bayar)||0);
         pTab += p; hUang += h;
         let tgl = new Date(t.Tanggal_Waktu); let dd = String(tgl.getDate()).padStart(2, '0'); let mm = String(tgl.getMonth() + 1).padStart(2, '0'); let yy = String(tgl.getFullYear()).slice(-2);
-        rows += `<tr><td class="text-start py-2 border-bottom">${dd}/${mm}/${yy}</td><td class="text-center py-2 border-bottom fw-bold">${t.Gas_Beli||0}</td><td class="text-center py-2 border-bottom fw-bold">${t.Tabung_Kembali||0}</td><td class="text-end py-2 border-bottom text-danger fw-bold">${h !== 0 ? h.toLocaleString('id-ID') : '-'}</td></tr>`;
+        rows += `<tr><td class="text-start py-2 border-bottom">${dd}/${mm}/${yy}</td><td class="text-center py-2 border-bottom fw-bold">${t.Gas_Beli||0}</td><td class="text-center py-2 border-bottom fw-bold text-warning">${pKsg}</td><td class="text-center py-2 border-bottom fw-bold">${t.Tabung_Kembali||0}</td><td class="text-end py-2 border-bottom text-danger fw-bold">${h !== 0 ? h.toLocaleString('id-ID') : '-'}</td></tr>`;
       });
-      document.getElementById('mutasiTabelBody').innerHTML = rows || '<tr><td colspan="4" class="text-center py-4">Belum ada data</td></tr>';
+      document.getElementById('mutasiTabelBody').innerHTML = rows || '<tr><td colspan="5" class="text-center py-4">Belum ada data</td></tr>';
       document.getElementById('mutasiTotalTabung').innerText = pTab + " Tabung"; document.getElementById('mutasiTotalUang').innerText = "Rp " + hUang.toLocaleString('id-ID'); modalMutasi.show();
     }
 
@@ -379,16 +390,32 @@
     });
 
     function tampilkanStruk(record) {
-      document.getElementById('areaStruk').innerHTML = `<div class="text-center mb-2"><strong style="font-size:14px">Toko Gas Ummi Nusa</strong><br><span style="font-size:10px">Jl. Bandingan wates, Purbalingga<br>Telp: 085713967119</span></div><div style="border-top:1px dashed #000;margin:8px 0"></div><table style="width:100%;font-size:11px"><tr><td style="width:40%">No</td><td>:</td><td>${record[0]}</td></tr><tr><td>Waktu</td><td>:</td><td>${document.getElementById('waktuDisplay').value}</td></tr><tr><td>Plg</td><td>:</td><td>${record[2]}</td></tr></table><div style="border-top:1px dashed #000;margin:8px 0"></div><div style="font-size:11px">ITEM: Gas LPG 3Kg x ${record[3]} Tabung</div><div style="border-top:1px dotted #000;margin:8px 0"></div><table style="width:100%;font-size:11px;font-weight:bold"><tr><td style="width:45%">TAGIHAN</td><td>:</td><td>Rp${Number(record[5]).toLocaleString('id-ID')}</td></tr><tr><td>BAYAR</td><td>:</td><td>Rp${Number(record[6]).toLocaleString('id-ID')}</td></tr></table><div style="border-top:1px dashed #000;margin:8px 0"></div><div style="font-size:10px">Kembali: ${record[4]} Tabung | Hutang: Rp${Number(record[7]).toLocaleString('id-ID')} | Pinjam: ${record[9]} Tabung</div><div style="border-top:1px dashed #000;margin:8px 0"></div><div class="text-center" style="font-size:10px">Terima Kasih</div>`;
+      document.getElementById('areaStruk').innerHTML = `<div class="text-center mb-2"><strong style="font-size:14px">Toko Gas Ummi Nusa</strong><br><span style="font-size:10px">Jl. Bandingan wates, Purbalingga<br>Telp: 085713967119</span></div><div style="border-top:1px dashed #000;margin:8px 0"></div><table style="width:100%;font-size:11px"><tr><td style="width:40%">No</td><td>:</td><td>${record[0]}</td></tr><tr><td>Waktu</td><td>:</td><td>${document.getElementById('waktuDisplay').value}</td></tr><tr><td>Plg</td><td>:</td><td>${record[2]}</td></tr></table><div style="border-top:1px dashed #000;margin:8px 0"></div><div style="font-size:11px">ITEM: Gas LPG 3Kg x ${record[3]} Tabung</div><div style="border-top:1px dotted #000;margin:8px 0"></div><table style="width:100%;font-size:11px;font-weight:bold"><tr><td style="width:45%">TAGIHAN</td><td>:</td><td>Rp${Number(record[5]).toLocaleString('id-ID')}</td></tr><tr><td>BAYAR</td><td>:</td><td>Rp${Number(record[6]).toLocaleString('id-ID')}</td></tr></table><div style="border-top:1px dashed #000;margin:8px 0"></div><div style="font-size:10px">Pjm Ksg: ${record[10] || 0} | Kbl: ${record[4]}<br>Hutang: Rp${Number(record[7]).toLocaleString('id-ID')}<br>Sisa Pinjam Plg: ${record[9]} Tbg</div><div style="border-top:1px dashed #000;margin:8px 0"></div><div class="text-center" style="font-size:10px">Terima Kasih</div>`;
       modalStruk.show();
     }
 
-    function cetakDariRiwayat(idTx) { let t = riwayatData.find(x => x.ID_Transaksi === idTx); if(t) { let tgl = new Date(t.Tanggal_Waktu); let dd = String(tgl.getDate()).padStart(2, '0'); let mm = String(tgl.getMonth() + 1).padStart(2, '0'); let yy = String(tgl.getFullYear()).slice(-2); let h = String(tgl.getHours()).padStart(2, '0'); let m = String(tgl.getMinutes()).padStart(2, '0'); document.getElementById('waktuDisplay').value = `${dd}/${mm}/${yy}, ${h}.${m}`; tampilkanStruk([t.ID_Transaksi, t.Tanggal_Waktu, (t.Nama_Pelanggan||t["Nama Pelanggan"]||t.Nama), t.Gas_Beli, t.Tabung_Kembali, t.Total_Tagihan, t.Uang_Bayar, t.Hutang_Uang, "YA", (t.Gas_Beli-t.Tabung_Kembali)]); } }
+    function cetakDariRiwayat(idTx) { let t = riwayatData.find(x => x.ID_Transaksi === idTx); if(t) { let tgl = new Date(t.Tanggal_Waktu); let dd = String(tgl.getDate()).padStart(2, '0'); let mm = String(tgl.getMonth() + 1).padStart(2, '0'); let yy = String(tgl.getFullYear()).slice(-2); let h = String(tgl.getHours()).padStart(2, '0'); let m = String(tgl.getMinutes()).padStart(2, '0'); document.getElementById('waktuDisplay').value = `${dd}/${mm}/${yy}, ${h}.${m}`; tampilkanStruk([t.ID_Transaksi, t.Tanggal_Waktu, (t.Nama_Pelanggan||t["Nama Pelanggan"]||t.Nama), t.Gas_Beli, t.Tabung_Kembali, t.Total_Tagihan, t.Uang_Bayar, t.Hutang_Uang, "YA", (parseInt(t.Gas_Beli||0) + parseInt(t.Pinjam_Kosong||0) - parseInt(t.Tabung_Kembali||0)), (t.Pinjam_Kosong||0)]); } }
 
     document.getElementById('formTransaksi').addEventListener('submit', function(e) {
       e.preventDefault(); const btn = document.getElementById('btnSimpan'); btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mencatat...';
-      const gBeli = parseInt(document.getElementById('gasBeli').value)||0; const tKbl = parseInt(document.getElementById('tabungKembali').value)||0;
-      const rec = [ document.getElementById('idTransaksi').value, new Date().toISOString(), document.getElementById('namaPelanggan').value, gBeli, tKbl, document.getElementById('totalTagihan').value||0, document.getElementById('uangBayar').value||0, document.getElementById('hutangUang').value||0, "YA", (gBeli - tKbl) ];
+      const gBeli = parseInt(document.getElementById('gasBeli').value)||0; 
+      const pKosong = parseInt(document.getElementById('pinjamKosong').value)||0;
+      const tKbl = parseInt(document.getElementById('tabungKembali').value)||0;
+      
+      const rec = [ 
+        document.getElementById('idTransaksi').value, 
+        new Date().toISOString(), 
+        document.getElementById('namaPelanggan').value, 
+        gBeli, 
+        tKbl, 
+        document.getElementById('totalTagihan').value||0, 
+        document.getElementById('uangBayar').value||0, 
+        document.getElementById('hutangUang').value||0, 
+        "YA", 
+        (gBeli + pKosong - tKbl), // Total Mutasi Tabung disimpan di Kolom J
+        pKosong                  // Jumlah Pinjam Tabung Kosong disimpan di Kolom K
+      ];
+      
       fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({"sheet": "Transaksi", "data": rec}) }).then(() => { nextId++; localStorage.setItem('gas_id', nextId); tampilkanStruk(rec); setTimeout(() => { resetForm(); btn.disabled = false; btn.innerHTML = '<i class="fas fa-save me-2"></i>SIMPAN TRANSAKSI'; refreshSemuaData(); }, 1500); });
     });
 
